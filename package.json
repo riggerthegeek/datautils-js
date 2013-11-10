@@ -1,0 +1,36 @@
+{
+    "name": "datautils",
+    "description": "Some JavaScript data utilities",
+    "version": "0.0.0",
+    "main": "./main",
+    "devDependencies": {
+        "chai": "*",
+        "jshint": "*",
+        "mocha": "*"
+    },
+    "author": "Simon Emms <simon@simonemms.com>",
+    "contributors": [{
+        "name": "Simon Emms",
+        "email": "simon@simonemms.com"
+    }],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/riggerthegeek/datautils-js.git"
+    },
+    "bugs": {
+        "url": "https://github.com/riggerthegeek/datautils-js/issues"
+    },
+    "licence": "GPL-3.0",
+    "scripts": {
+        "test": "jshint ./ && mocha test --colors --reporter spec --recursive"
+    },
+    "jshintConfig": {
+        "camelcase": true,
+        "curly": true,
+        "eqeqeq": true,
+        "strict": false,
+        "trailing": true,
+        "undef": false,
+        "unused": false
+    }
+}
