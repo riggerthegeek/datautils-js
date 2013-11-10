@@ -40,7 +40,7 @@ This module uses the [Revealing Module Pattern](http://addyosmani.com/resources/
 
 # Array
 
-<a name="#inArray">
+<a name="inArray">
 ### _bool_ inArray(_mixed_ needle, _array_ haystack)
 
 Searches for the needle (usually a string, but could be a number or other data
@@ -55,7 +55,7 @@ type) inside the haystack (an array).
     datautils.array.inArray('val2', haystack); // true
     datautils.array.inArray('val4', haystack); // false
 
-<a name="#objectValues">
+<a name="objectValues">
 ### _array_ objectValues(_object_ obj)
 
 Pass out the values of an object as an array.  Similar to PHP's array_values()
@@ -77,12 +77,12 @@ raw input as the first parameter and a default value as the second.  If the firs
 parameter fulfils the criteria of the method, it return that otherwise it returns
 the default value.
 
-<a name="#setArray">
+<a name="setArray">
 ### _mixed_ setArray(_mixed_ input, _mixed_ def)
 
 Ensures that the input is an array
 
-<a name="#setBool">
+<a name="setBool">
 ### _mixed_ setBool(_mixed_ input, _mixed_ def)
 
 Ensures the the input is a boolean (true/false).  It also casts it to a boolean
@@ -96,30 +96,30 @@ if the following criteria:
    - Number: 0
    - Boolean: false
 
-<a name="#setDate">
+<a name="setDate">
 ### _mixed_ setDate(_mixed_ input, _mixed_ def)
 
 Ensures that the input is an instance of the Date object.  Can take in either a
 Date object or a string that matches the ISO8601 format.
 
-<a name="#setFloat">
+<a name="setFloat">
 ### _mixed_ setFloat(_mixed_ input, _mixed_ def)
 
 Ensures that input is a floating point number.  This can receive either a number
 or a numerical string.
 
-<a name="#setFunction">
+<a name="setFunction">
 ### _mixed_ setFunction(_mixed_ input, _mixed_ def)
 
 Ensures that the input a function
 
-<a name="#setInstanceOf">
+<a name="setInstanceOf">
 ### _mixed_ setInstanceOf(_mixed_ input, _function_ instance, _mixed_ def)
 
 Ensures that the input is an instance of the instance.  The instance must
 be a function.  This function can be injected into this method.
 
-<a name="#setInt">
+<a name="setInt">
 ### _mixed_ setInt(_mixed_ input, _mixed_ def)
 
 Ensures that the input is an integer.  This can be either a string, or a
@@ -130,7 +130,7 @@ Number(1) or String(3.0), they are returned as Number(1) and Number(3).
 However, if you pass in Number(1.2) or String(2.4), the default value
 will be returned.
 
-<a name="#setString">
+<a name="setString">
 ### _mixed_ setString(_mixed_ input, _mixed_ def[, _array_ values])
 
 Ensures that the input is a string.  If it is a number, this is cast
