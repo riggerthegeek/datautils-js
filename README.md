@@ -33,4 +33,17 @@ Searches for the needle (usually a string, but could be a number or other data t
     datautils.array.inArray('val2', haystack); // true
     datautils.array.inArray('val4', haystack); // false
 
+### _array_ objectValues(_object_ obj)
+
+Pass out the values of an object as an array.  Similar to PHP's array_values() function
+
+#### Example
+
+    var obj = {
+        name: 'Name',
+        email: 'test@test.com'
+    };
+    
+    datautils.array.objectValues(obj); // ['Name', test@test.com']
+
 # Data Types
