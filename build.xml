@@ -164,6 +164,13 @@
     <target name="package" depends="init, stage">
 
         <echo message="Packaging ${package.name} to a zip" />
+        
+        <exec-node-out module="npm" dir="${dist.dir}" outputproperty="pack.out">
+            <arg value="pack" />
+            <arg value="${staging.dir}" />
+        </exec-node-out>
+        
+        <copy file="${dist.dir}/${pack.out}" tofile="${dist.dir}/${package.name}-latest.tgz" />
 
     </target>
 
