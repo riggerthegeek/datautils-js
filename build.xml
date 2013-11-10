@@ -92,21 +92,6 @@
         
     </target>
     
-<!--    <target name="deploy" depends="init">
-        
-        <echo message="Deploying new version of ${package.name}" />
-        
-        <input message="What do you want to deploy?" addproperty="npm.version" validargs="major,minor,patch,build" />
-        
-        <echo message="${npm.version}" />
-        
-        <exec-node module="npm">
-            <arg value="version" />
-            <arg value="${npm.version}" />
-        </exec-node>
-        
-    </target>-->
-    
     <target name="dev-package" depends="init, npm-install-dev, stage, generate-build-number, package">
 
         <echo message="Development package of ${package.name}" />
@@ -118,8 +103,6 @@
         <echo message="Generating build number" />
 
         <property name="build.number" value="${now}" />
-
-        <!-- Add ${build.number} property to ${staging.dir}/package.json -->
         
         <echo message="${build.number}" file="${staging.dir}/build-number" />
     	<copy file="${staging.dir}/package.json" tofile="${staging.dir}/package.json.tmp" />
