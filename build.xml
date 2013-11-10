@@ -209,9 +209,17 @@
         
         <antcall target="build" />
         
+        <echo message="Publish ${package.name}@${npm.version}" />
+    
         <exec-node module="npm">
             <arg value="publish" />
             <arg value="${dist.dir}/${package.name}-latest.tgz" />
+        </exec-node>
+    
+        <echo message="Pushing ${package.name}@${npm.version} changes" />
+            
+        <exec-node module="git">
+            <arg value="push" />
         </exec-node>
         
     </target>
