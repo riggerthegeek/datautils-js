@@ -1,0 +1,15 @@
+---
+language: node_js
+node_js:
+  - "0.11"
+  - "0.10"
+  - "0.8"
+  - "0.6"
+script:
+  - ant ci
+notifications:
+  email:
+    recipients:
+      - simon@simonemms.com
+    on_success: change
+    on_failure: always
