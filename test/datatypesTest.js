@@ -226,4 +226,19 @@ describe('Executing the datautils', function() {
 
     });
 
+    it('should correctly handle the setObject', function(done) {
+
+        expect(DataUtils.setObject({}, null)).to.be.eql({});
+        expect(DataUtils.setObject({key: 'value'}, null)).to.be.eql({key: 'value'});
+        expect(DataUtils.setObject(Object.create({k: 2}), null)).to.be.eql({k: 2});
+        expect(DataUtils.setObject(new String('some string'), 'empty')).to.be.eql(new String('some string'));
+
+        expect(DataUtils.setObject([], null)).to.be.null;
+        expect(DataUtils.setObject(null, 'empty')).to.be.equal('empty');
+        expect(DataUtils.setObject(undefined, null)).to.be.equal(null);
+
+        done();
+
+    });
+
 });

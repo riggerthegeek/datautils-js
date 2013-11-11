@@ -2,7 +2,7 @@
  * Array Helper Test
  *
  * Run these tests using Mocha framework. Eg..
- *  mocha datautilsTest.js
+ *  mocha arrayutilsTest.js
  *
  * Mocha runs best when install as a global dependency.
  *
