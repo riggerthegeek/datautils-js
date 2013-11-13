@@ -3,6 +3,9 @@
   "description": "Some JavaScript data utilities",
   "version": "0.0.3",
   "main": "./main",
+  "dependencies": {
+      "underscore": "1.5.2"
+  },
   "devDependencies": {
     "chai": "*",
     "jshint": "*",
