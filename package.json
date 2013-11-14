@@ -33,9 +33,13 @@
     "camelcase": true,
     "curly": true,
     "eqeqeq": true,
-    "strict": false,
+    "strict": true,
     "trailing": true,
-    "undef": false,
-    "unused": false
+    "undef": true,
+    "unused": true,
+    "globals": {
+        "module": false,
+        "require": false
+    }
   }
 }
