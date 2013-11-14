@@ -19,12 +19,19 @@
  * Copyright (C) 2013 Simon Emms <simon@simonemms.com>
  */
 
-module.exports = {
+(function() {
 
-    array: require('./lib/arrayutils'),
+    "use strict";
 
-    data: require('./lib/datatypes'),
+    module.exports = {
 
-    model: require('./lib/model')
+        array: require("./lib/arrayutils"),
 
-};
+        data: require("./lib/datatypes"),
+
+        model: require("./lib/model")
+
+
+    };
+
+}());
