@@ -199,6 +199,31 @@ describe("Model tests", function() {
 
             });
 
+            it('should ignore undefined elements', function(done) {
+
+                var obj = Model.toModel({
+                    boolean: "N",
+                    bool: true
+                });
+
+                expect(obj).to.be.instanceof(Model);
+
+                expect(obj.toObject()).to.be.eql({
+                    array: null,
+                    boolean: false,
+                    date: null,
+                    float: null,
+                    integer: null,
+                    object: null,
+                    string: null,
+                    notSet: null,
+                    notSetNull: null
+                });
+
+                done();
+
+            });
+
         });
 
     });
@@ -211,13 +236,380 @@ describe("Model tests", function() {
 
     describe("Validation check", function() {
 
+        describe('Single rule', function() {
 
+            var Model;
 
-    });
+            before(function() {
 
-    describe("Error checks", function() {
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        name: {
+                            type: "string",
+                            validation: [{
+                                rule: "required"
+                            }]
+                        }
+                    }
+                });
 
+            });
 
+            it('should not throw an error when a string is provided', function(done) {
+
+                var obj = new Model({
+                    name: "Test Name"
+                });
+
+                expect(obj.validate()).to.be.true;
+
+                done();
+
+            });
+
+            it('should throw error when string is null', function(done) {
+
+                var obj = new Model();
+
+                expect(obj).to.be.instanceof(Model);
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch (err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        name: [{
+                            message: "VALUE_REQUIRED",
+                            value: null
+                        }]
+                    });
+
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+        });
+
+        describe('Multiple keys, single rules on all', function() {
+
+            var Model;
+
+            before(function() {
+
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        name: {
+                            type: "string",
+                            validation: [{
+                                rule: "required"
+                            }]
+                        },
+                        emailAddress: {
+                            type: "string",
+                            validation: [{
+                                rule: "email"
+                            }]
+                        }
+                    }
+                });
+
+            });
+
+            it('should validate both rules', function(done) {
+
+                var obj = new Model({
+                    name: 'Test',
+                    emailAddress: 'test@test.com'
+                });
+
+                expect(obj.validate()).to.be.true;
+
+                done();
+
+            });
+
+            it('should fail to validate the first rule', function(done) {
+
+                var obj = new Model({
+                    emailAddress: 'test@test.com'
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        name: [{
+                            message: "VALUE_REQUIRED",
+                            value: null
+                        }]
+                    });
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+            it('should fail to validate the second rule', function(done) {
+
+                var obj = new Model({
+                    name: 'Test',
+                    emailAddress: 'not@anemail'
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        emailAddress: [{
+                            message: "VALUE_NOT_EMAIL",
+                            value: "not@anemail"
+                        }]
+                    });
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+            it('should fail to validate both rules', function(done) {
+
+                var obj = new Model({
+                    emailAddress: "noanemail.com",
+                    name: ""
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        name: [{
+                            message: "VALUE_REQUIRED",
+                            value: ""
+                        }],
+                        emailAddress: [{
+                            message: "VALUE_NOT_EMAIL",
+                            value: "noanemail.com"
+                        }]
+                    });
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+        });
+
+        describe('Multiple keys, single rules on some', function() {
+
+            var Model;
+
+            before(function() {
+
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        name: {
+                            type: "string",
+                            validation: [{
+                                rule: "required"
+                            }]
+                        },
+                        emailAddress: {
+                            type: "string"
+                        }
+                    }
+                });
+
+            });
+
+        });
+
+        describe('Multiple keys, multiple rules on all', function() {
+
+            var Model;
+
+            before(function() {
+
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        emailAddress1: {
+                            type: "string",
+                            validation: [{
+                                rule: "required"
+                            }, {
+                                rule: "email"
+                            }]
+                        },
+                        emailAddress2: {
+                            type: "string",
+                            validation: [{
+                                rule: "required"
+                            }, {
+                                rule: "email"
+                            }]
+                        }
+                    }
+                });
+
+            });
+
+            it('should validate all rules', function(done) {
+
+                var obj = new Model({
+                    emailAddress1: "example@domain.com",
+                    emailAddress2: "test@test.com"
+                });
+
+                expect(obj.validate()).to.be.true;
+
+                done();
+
+            });
+
+            it('should fail all rules', function(done) {
+
+                var obj = new Model({
+                    emailAddress1: "f",
+                    emailAddress2: "testtest.com"
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        emailAddress1: [{
+                            message: "VALUE_NOT_EMAIL",
+                            value: "f"
+                        }],
+                        emailAddress2: [{
+                            message: "VALUE_NOT_EMAIL",
+                            value: "testtest.com"
+                        }]
+                    });
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+            it('should fail one rule on one element', function(done) {
+
+                var obj = new Model({
+                    emailAddress1: "f",
+                    emailAddress2: "testtest.com"
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        emailAddress1: [{
+                            message: "VALUE_NOT_EMAIL",
+                            value: "f"
+                        }],
+                        emailAddress2: [{
+                            message: "VALUE_NOT_EMAIL",
+                            value: "testtest.com"
+                        }]
+                    });
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+            it("should fail on multiple errors on a single key", function(done) {
+
+                var obj = new Model({
+                    emailAddress2: "test@test.com"
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch (err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        emailAddress1: [{
+                            message: "VALUE_REQUIRED",
+                            value: null
+                        }, {
+                            message: "VALUE_NOT_EMAIL_NOT_STRING",
+                            value: null
+                        }]
+                    });
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+        });
 
     });
 

@@ -25,7 +25,9 @@ module.exports = {
 
     data: require("./lib/datatypes"),
 
-    model: require("./lib/model")
+    model: require("./lib/model"),
+
+    validation: require("./lib/validation")
 
 
 };
