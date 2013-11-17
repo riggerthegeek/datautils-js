@@ -201,8 +201,9 @@ describe("Validation tests", function() {
                     expect(err).to.be.instanceof(Error);
                     expect(err.message).to.be.equal('VALUE_LESS_THAN_MIN_LENGTH');
                     expect(err.value).to.be.equal(value);
-                    expect(err.param1).to.be.equal(Number(length));
-                    expect(err).to.not.have.property('param2');
+                    expect(err.params).to.be.eql([
+                        Number(length)
+                    ]);
                 }
 
                 expect(fail).to.be.true;
@@ -238,8 +239,9 @@ describe("Validation tests", function() {
                     expect(err).to.be.instanceof(Error);
                     expect(err.message).to.be.equal('MIN_LENGTH_LESS_THAN_ZERO');
                     expect(err.value).to.be.equal(value);
-                    expect(err.param1).to.be.equal(length);
-                    expect(err).to.not.have.property('param2');
+                    expect(err.params).to.be.eql([
+                        length
+                    ]);
                 }
 
                 expect(fail).to.be.true;
@@ -278,8 +280,9 @@ describe("Validation tests", function() {
                     expect(err).to.be.instanceof(Error);
                     expect(err.message).to.be.equal('MIN_LENGTH_NOT_INTEGER');
                     expect(err.value).to.be.equal(value);
-                    expect(err.param1).to.be.equal(length);
-                    expect(err).to.not.have.property('param2');
+                    expect(err.params).to.be.eql([
+                        length
+                    ]);
                 }
 
                 expect(fail).to.be.true;
@@ -319,8 +322,9 @@ describe("Validation tests", function() {
                     expect(err).to.be.instanceof(Error);
                     expect(err.message).to.be.equal('VALUE_MIN_LENGTH_NOT_STRING');
                     expect(err.value).to.be.equal(value);
-                    expect(err.param1).to.be.equal(length);
-                    expect(err).to.not.have.property('param2');
+                    expect(err.params).to.be.eql([
+                        length
+                    ]);
                 }
 
                 expect(fail).to.be.true;
