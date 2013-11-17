@@ -663,7 +663,10 @@ describe("Model tests", function() {
                     expect(err.getErrors()).to.be.eql({
                         name: [{
                             message: "VALUE_LESS_THAN_MIN_LENGTH",
-                            value: "Test"
+                            value: "Test",
+                            params: [
+                                5
+                            ]
                         }]
                     });
                 }
@@ -671,6 +674,109 @@ describe("Model tests", function() {
                 expect(fail).to.be.true;
 
                 done();
+
+            });
+
+        });
+
+        describe('Validate against custom validation rules', function() {
+
+            describe('No parameters passed', function() {
+
+                var Model;
+
+                before(function() {
+
+                    /* Define the model */
+                    Model = model.extend({
+                        definition: {
+                            name: {
+                                type: "string",
+                                validation: [{
+                                    rule: function(value) {
+                                        if(value === 'throw') {
+                                            throw new Error('THROWN_ERROR');
+                                        }
+                                        return value === "Hello";
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                });
+
+                it('should validate the custom rule', function(done) {
+
+                    var obj = new Model({
+                        name: "Hello"
+                    });
+
+                    expect(obj.validate()).to.be.true;
+
+                    done();
+
+                });
+
+                it('should throw an error when custom rule returns false', function(done) {
+
+                    var obj = new Model({
+                        name: "Potato"
+                    });
+
+                    var fail = false;
+
+                    try {
+                        obj.validate();
+                    } catch (err) {
+                        fail = true;
+
+                        expect(err).to.be.instanceof(Error);
+                        expect(err.getType()).to.be.equal("ModelError");
+
+                        expect(err.getErrors()).to.be.eql({
+                            name: [{
+                                message: "CUSTOM_VALIDATION_FAILED",
+                                value: "Potato"
+                            }]
+                        });
+                    }
+
+                    expect(fail).to.be.true;
+
+                    done();
+
+                });
+
+                it('should throw an error when custom rule throws error', function(done) {
+
+                    var obj = new Model({
+                        name: "throw"
+                    });
+
+                    var fail = false;
+
+                    try {
+                        obj.validate();
+                    } catch (err) {
+                        fail = true;
+
+                        expect(err).to.be.instanceof(Error);
+                        expect(err.getType()).to.be.equal("ModelError");
+
+                        expect(err.getErrors()).to.be.eql({
+                            name: [{
+                                message: "THROWN_ERROR",
+                                value: "throw"
+                            }]
+                        });
+                    }
+
+                    expect(fail).to.be.true;
+
+                    done();
+
+                });
 
             });
 
