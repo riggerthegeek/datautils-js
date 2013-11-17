@@ -51,7 +51,7 @@ describe("Validation tests", function() {
                 'this\ still\"not\\allowed@example.com'
             ];
 
-            expect(arr.length).to.be.equal(8);
+            expect(arr).to.have.length(8);
 
             arr.forEach(function(email) {
 
@@ -65,6 +65,7 @@ describe("Validation tests", function() {
                     expect(err).to.be.instanceof(Error);
                     expect(err.message).to.be.equal('VALUE_NOT_EMAIL');
                     expect(err.value).to.be.equal(email);
+                    expect(err).to.not.have.property('param1');
                 }
 
                 expect(fail).to.be.true;
@@ -88,7 +89,7 @@ describe("Validation tests", function() {
                 new String('test@test.com')
             ];
 
-            expect(arr.length).to.be.equal(8);
+            expect(arr).to.have.length(8);
 
             arr.forEach(function(email) {
 
@@ -102,6 +103,7 @@ describe("Validation tests", function() {
                     expect(err).to.be.instanceof(Error);
                     expect(err.message).to.be.equal('VALUE_NOT_EMAIL_NOT_STRING');
                     expect(err.value).to.be.equal(email);
+                    expect(err).to.not.have.property('param1');
                 }
 
                 expect(fail).to.be.true;
@@ -136,7 +138,7 @@ describe("Validation tests", function() {
                 undefined
             ];
 
-            expect(arr.length).to.be.equal(3);
+            expect(arr).to.have.length(3);
 
             arr.forEach(function(value) {
 
@@ -150,6 +152,7 @@ describe("Validation tests", function() {
                     expect(err).to.be.instanceof(Error);
                     expect(err.message).to.be.equal('VALUE_REQUIRED');
                     expect(err.value).to.be.equal(value);
+                    expect(err).to.not.have.property('param1');
                 }
 
                 expect(fail).to.be.true;
@@ -159,6 +162,182 @@ describe("Validation tests", function() {
             done();
 
         });
+
+    });
+
+    describe("#minLength", function() {
+
+        it('should return true when min length met or exceeded', function(done) {
+
+            expect(validation.minLength('turkey', 2)).to.be.true;
+            expect(validation.minLength('string', 6)).to.be.true;
+            expect(validation.minLength('', 0)).to.be.true;
+            expect(validation.minLength('nSP"%yB9f{$a-.<b<tgXQ3', 21)).to.be.true;
+
+            done();
+
+        });
+
+        it('should throw error when under min length', function(done) {
+
+            var obj = {
+                'string': 10,
+                '': 1,
+                's': 2,
+                'nSP"%yB9f{$a-.<b<tgXQ3': "27"
+            };
+
+            for(var value in obj) {
+
+                var length = obj[value];
+
+                var fail = false;
+
+                try {
+                    validation.minLength(value, length);
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal('VALUE_LESS_THAN_MIN_LENGTH');
+                    expect(err.value).to.be.equal(value);
+                    expect(err.param1).to.be.equal(Number(length));
+                    expect(err).to.not.have.property('param2');
+                }
+
+                expect(fail).to.be.true;
+
+            }
+
+            done();
+
+        });
+
+        it('should throw error if length less than 0', function(done) {
+
+            var arr = [
+                -1,
+                -10,
+                -100,
+                -1000
+            ];
+
+            expect(arr).to.have.length(4);
+
+            arr.forEach(function(length) {
+
+                var value = 'string';
+
+                var fail = false;
+
+                try {
+                    validation.minLength(value, length);
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal('MIN_LENGTH_LESS_THAN_ZERO');
+                    expect(err.value).to.be.equal(value);
+                    expect(err.param1).to.be.equal(length);
+                    expect(err).to.not.have.property('param2');
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
+
+        it('should throw error if non integer passed over as length', function(done) {
+
+            var arr = [
+                null,
+                true,
+                false,
+                {},
+                [],
+                undefined,
+                new String('test@test.com')
+            ];
+
+            expect(arr).to.have.length(7);
+
+            arr.forEach(function(length) {
+
+                var value = 'string';
+
+                var fail = false;
+
+                try {
+                    validation.minLength(value, length);
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal('MIN_LENGTH_NOT_INTEGER');
+                    expect(err.value).to.be.equal(value);
+                    expect(err.param1).to.be.equal(length);
+                    expect(err).to.not.have.property('param2');
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
+
+        it('should throw error if non string passed over as value', function(done) {
+
+            var arr = [
+                null,
+                true,
+                false,
+                2,
+                {},
+                [],
+                undefined,
+                new String('test@test.com')
+            ];
+
+            expect(arr).to.have.length(8);
+
+            arr.forEach(function(value) {
+
+                var length = 0;
+
+                var fail = false;
+
+                try {
+                    validation.minLength(value, length);
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal('VALUE_MIN_LENGTH_NOT_STRING');
+                    expect(err.value).to.be.equal(value);
+                    expect(err.param1).to.be.equal(length);
+                    expect(err).to.not.have.property('param2');
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
+
+    });
+
+    describe("#maxLength", function() {
+
+    });
+
+    describe("#length", function() {
 
     });
 
