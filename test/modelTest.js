@@ -611,6 +611,71 @@ describe("Model tests", function() {
 
         });
 
+        describe('Validate rules that receive parameters', function() {
+
+            var Model;
+
+            before(function() {
+
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        name: {
+                            type: "string",
+                            validation: [{
+                                rule: "minLength",
+                                param: 5
+                            }]
+                        }
+                    }
+                });
+
+            });
+
+            it('should validate the model', function(done) {
+
+                var obj = new Model({
+                    name: "Test1234"
+                });
+
+                expect(obj.validate()).to.be.true;
+
+                done();
+
+            });
+
+            it('should throw an error when not validated', function(done) {
+
+                var obj = new Model({
+                    name: "Test"
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        name: [{
+                            message: "VALUE_LESS_THAN_MIN_LENGTH",
+                            value: "Test"
+                        }]
+                    });
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+        });
+
     });
 
 });
