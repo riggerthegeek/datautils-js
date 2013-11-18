@@ -226,11 +226,223 @@ describe("Model tests", function() {
 
         });
 
+        describe("Create functions on a model", function() {
+
+            var Model;
+
+            before(function() {
+
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        name: {
+                            type: "string"
+                        },
+                        parentId: {
+                            type: "integer",
+                            value: 0
+                        }
+                    },
+                    getName: function() {
+                        return this.get("name");
+                    },
+                    isBoss: function() {
+                        return this.get("parentId") === 1;
+                    },
+                    setName: function(name) {
+                        this.set("name", name);
+                    }
+                });
+
+            });
+
+            it('should return the name when set', function(done) {
+
+                var obj = new Model({
+                    name: "Test",
+                    parentId: 2
+                });
+
+                expect(obj.getName()).to.be.equal("Test");
+                expect(obj.isBoss()).to.be.false;
+                expect(obj.setName("Kevin")).to.be.undefined;
+                expect(obj.getName()).to.be.equal("Kevin");
+
+                var fail = false;
+                try {
+                    obj.nonExistentFunction();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(TypeError);
+                    expect(err.message).to.be.equal("Object [object Object] has no method 'nonExistentFunction'");
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+        });
+
     });
 
     describe("Extending the model", function() {
 
+        it("should extend model and keep parent methods", function(done) {
 
+            /* Define the model */
+            var Model = model.extend({
+                definition: {
+                    name: {
+                        type: "string"
+                    }
+                },
+                getName: function() {
+                    return this.get("name");
+                }
+            });
+
+            var childModel = Model.extend({
+                definition: {
+                    jobTitle: {
+                        type: "string"
+                    }
+                },
+                getJobTitle: function() {
+                    return this.get("jobTitle");
+                }
+            });
+
+            var obj1 = new Model({
+                name: "Name"
+            });
+
+            expect(obj1).to.be.instanceof(Model);
+            expect(obj1.toObject()).to.be.eql({
+                name: "Name"
+            });
+            expect(obj1.getName()).to.be.equal("Name");
+
+            var obj2 = new childModel({
+                name: "Foo",
+                jobTitle: "King"
+            });
+
+            expect(obj2).to.be.instanceof(Model);
+            expect(obj2).to.be.instanceof(childModel);
+            expect(obj2.toObject()).to.be.eql({
+                name: "Foo",
+                jobTitle: "King"
+            });
+            expect(obj2.getName()).to.be.equal("Foo");
+            expect(obj2.getJobTitle()).to.be.equal("King");
+
+            done();
+
+        });
+
+        it("should extend model and keep parent methods", function(done) {
+
+            /* Define the model */
+            var Model = model.extend({
+                definition: {
+                    age: {
+                        type: "float"
+                    }
+                },
+                getAge: function() {
+                    return this.get("age");
+                }
+            });
+
+            var childModel = Model.extend({
+                definition: {
+                    age: {
+                        type: "integer"
+                    }
+                },
+                getAge: function() {
+                    return String(this.get("age"));
+                }
+            });
+
+            var obj1 = new Model({
+                age: "42"
+            });
+
+            var obj2 = new childModel({
+                age: "18"
+            });
+
+            expect(obj1).to.be.instanceof(Model);
+            expect(obj1.toObject()).to.be.eql({
+                age: 42
+            });
+            expect(obj1.getAge()).to.be.equal(42);
+
+            expect(obj2).to.be.instanceof(Model);
+            expect(obj2).to.be.instanceof(childModel);
+            expect(obj2.toObject()).to.be.eql({
+                age: 18
+            });
+            expect(obj2.getAge()).to.be.equal("18");
+
+            done();
+
+        });
+
+        it("should extend a model with no definition", function(done) {
+
+            /* Define the model */
+            var Model = model.extend({
+                getAge: function() {
+                    return this.get("age");
+                },
+                getName: function() {
+                    return this.get("name");
+                }
+            });
+
+            var childModel = Model.extend({
+                definition: {
+                    age: {
+                        type: "integer"
+                    },
+                    name: {
+                        type: "string"
+                    }
+                },
+                getName: function() {
+                    return "Name: " + this.get("name");
+                }
+            });
+
+            var obj1 = new Model();
+
+            var obj2 = new childModel({
+                age: 26,
+                name: "Test"
+            });
+
+            expect(obj1).to.be instanceof(Model);
+            expect(obj1.toObject()).to.be.eql({});
+            expect(obj1.getAge()).to.be.undefined;
+
+            expect(obj2).to.be.instanceof(Model);
+            expect(obj2).to.be.instanceof(childModel);
+
+            expect(obj2.toObject()).to.be.eql({
+                age: 26,
+                name: "Test"
+            });
+            expect(obj2.getAge()).to.be.equal(26);
+            expect(obj2.getName()).to.be.equal("Name: Test");
+
+            done();
+
+        });
 
     });
 
