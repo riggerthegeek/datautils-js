@@ -749,6 +749,11 @@ describe("Model tests", function() {
 
                 expect(fail).to.be.true;
 
+                obj.set("emailAddress1", "test@test.com");
+                obj.set("emailAddress2", "test2@test.com");
+
+                expect(obj.validate()).to.be.true;
+
                 done();
 
             });
@@ -784,6 +789,11 @@ describe("Model tests", function() {
 
                 expect(fail).to.be.true;
 
+                obj.set("emailAddress1", "test@test.com");
+                obj.set("emailAddress2", "test2@test.com");
+
+                expect(obj.validate()).to.be.true;
+
                 done();
 
             });
@@ -816,6 +826,11 @@ describe("Model tests", function() {
                 }
 
                 expect(fail).to.be.true;
+
+                obj.set("emailAddress1", "test@test.com");
+                obj.set("emailAddress2", "test2@test.com");
+
+                expect(obj.validate()).to.be.true;
 
                 done();
 
@@ -884,6 +899,10 @@ describe("Model tests", function() {
                 }
 
                 expect(fail).to.be.true;
+
+                obj.set("name", "Test1234");
+
+                expect(obj.validate()).to.be.true;
 
                 done();
 
@@ -959,6 +978,10 @@ describe("Model tests", function() {
 
                 expect(fail).to.be.true;
 
+                obj.set("name", "The name");
+
+                expect(obj.validate()).to.be.true;
+
                 done();
 
             });
@@ -983,9 +1006,7 @@ describe("Model tests", function() {
                                         if(value === 'throw') {
                                             throw new Error('THROWN_ERROR');
                                         }
-                                        var result = value === "Hello";
-                                        console.log(result);
-                                        return result;
+                                        return value === "Hello";
                                     }
                                 }]
                             }
@@ -1032,6 +1053,10 @@ describe("Model tests", function() {
 
                     expect(fail).to.be.true;
 
+                    obj.set("name", "Hello");
+
+                    expect(obj.validate()).to.be.true;
+
                     done();
 
                 });
@@ -1061,6 +1086,237 @@ describe("Model tests", function() {
                     }
 
                     expect(fail).to.be.true;
+
+                    obj.set("name", "Hello");
+
+                    expect(obj.validate()).to.be.true;
+
+                    done();
+
+                });
+
+            });
+
+            describe('Single parameter passed', function() {
+
+                var Model;
+
+                before(function() {
+
+                    /* Define the model */
+                    Model = model.extend({
+                        definition: {
+                            name: {
+                                type: "string",
+                                validation: [{
+                                    rule: function(value, match) {
+                                        if(value === 'throw') {
+                                            throw new Error('THROWN_ERROR');
+                                        }
+                                        return value === match;
+                                    },
+                                    param: "Hello"
+                                }]
+                            }
+                        }
+                    });
+
+                });
+
+                it('should validate the custom rule', function(done) {
+
+                    var obj = new Model({
+                        name: "Hello"
+                    });
+
+                    expect(obj.validate()).to.be.true;
+
+                    done();
+
+                });
+
+                it('should throw an error when the test returns false', function(done) {
+
+                    var obj = new Model({
+                        name: 'false'
+                    });
+
+                    var fail = false;
+
+                    try {
+                        obj.validate();
+                    } catch(err) {
+
+                        fail = true;
+
+                        expect(err).to.be.instanceof(Error);
+                        expect(err.getType()).to.be.equal("ModelError");
+
+                        expect(err.getErrors()).to.be.eql({
+                            name: [{
+                                message: "CUSTOM_VALIDATION_FAILED",
+                                value: "false"
+                            }]
+                        });
+
+                    }
+
+                    expect(fail).to.be.true;
+
+                    obj.set("name", "Hello");
+
+                    expect(obj.validate()).to.be.true;
+
+                    done();
+
+                });
+
+                it('should throw an error when the validation method throws an error', function(done) {
+
+                    var obj = new Model({
+                        name: 'throw'
+                    });
+
+                    var fail = false;
+
+                    try {
+                        obj.validate();
+                    } catch(err) {
+
+                        fail = true;
+
+                        expect(err).to.be.instanceof(Error);
+                        expect(err.getType()).to.be.equal("ModelError");
+
+                        expect(err.getErrors()).to.be.eql({
+                            name: [{
+                                message: "THROWN_ERROR",
+                                value: "throw"
+                            }]
+                        });
+
+                    }
+
+                    expect(fail).to.be.true;
+
+                    obj.set("name", "Hello");
+
+                    expect(obj.validate()).to.be.true;
+
+                    done();
+
+                });
+
+            });
+
+            describe('Array of parameters passed', function() {
+
+                var Model;
+
+                before(function() {
+
+                    /* Define the model */
+                    Model = model.extend({
+                        definition: {
+                            name: {
+                                type: "string",
+                                validation: [{
+                                    rule: function(value, match, datatype) {
+                                        if(value === 'throw') {
+                                            throw new Error('THROWN_ERROR');
+                                        }
+                                        return value === match && typeof value === datatype;
+                                    },
+                                    param: [
+                                        "Hello",
+                                        "string"
+                                    ]
+                                }]
+                            }
+                        }
+                    });
+
+                });
+
+                it('should validate the custom rule', function(done) {
+
+                    var obj = new Model({
+                        name: "Hello"
+                    });
+
+                    expect(obj.validate()).to.be.true;
+
+                    done();
+
+                });
+
+                it('should throw an error when the validation function returns false', function(done) {
+
+                    var obj = new Model({
+                        name: 'test'
+                    });
+
+                    var fail = false;
+
+                    try {
+                        obj.validate();
+                    } catch(err) {
+
+                        fail = true;
+
+                        expect(err).to.be.instanceof(Error);
+                        expect(err.getType()).to.be.equal("ModelError");
+
+                        expect(err.getErrors()).to.be.eql({
+                            name: [{
+                                message: "CUSTOM_VALIDATION_FAILED",
+                                value: "test"
+                            }]
+                        });
+
+                    }
+
+                    expect(fail).to.be.true;
+
+                    obj.set("name", "Hello");
+
+                    expect(obj.validate()).to.be.true;
+
+                    done();
+
+                });
+
+                it('should throw an error when the validation method throws an error', function(done) {
+
+                    var obj = new Model({
+                        name: 'throw'
+                    });
+
+                    var fail = false;
+
+                    try {
+                        obj.validate();
+                    } catch(err) {
+
+                        fail = true;
+
+                        expect(err).to.be.instanceof(Error);
+                        expect(err.getType()).to.be.equal("ModelError");
+
+                        expect(err.getErrors()).to.be.eql({
+                            name: [{
+                                message: "THROWN_ERROR",
+                                value: "throw"
+                            }]
+                        });
+
+                    }
+
+                    expect(fail).to.be.true;
+
+                    obj.set("name", "Hello");
+
+                    expect(obj.validate()).to.be.true;
 
                     done();
 
