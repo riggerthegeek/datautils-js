@@ -196,6 +196,40 @@
 
     </target>
 
+    <target name="publish" depends="init">
+
+        <echo message="Publishing a new version of ${package.name}" />
+
+        <input message="What do you want to deploy?" addproperty="npm.deploy" />
+
+        <exec-node-out module="npm" dir="${basedir}" outputproperty="npm.version">
+            <arg value="version" />
+            <arg value="${npm.deploy}" />
+        </exec-node-out>
+
+        <exec-node module="git">
+            <arg value="push" />
+            <arg value="origin" />
+            <arg value="${npm.version}" />
+        </exec-node>
+
+        <antcall target="build" />
+
+        <echo message="Publish ${package.name}@${npm.version}" />
+
+        <exec-node module="npm">
+            <arg value="publish" />
+            <arg value="${dist.dir}/${package.name}-latest.tgz" />
+        </exec-node>
+
+        <echo message="Pushing ${package.name}@${npm.version} changes" />
+
+        <exec-node module="git">
+            <arg value="push" />
+        </exec-node>
+
+    </target>
+
     <target name="stage" depends="init">
 
         <echo message="Staging ${package.name}" />
