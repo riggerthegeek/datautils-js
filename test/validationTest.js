@@ -980,4 +980,84 @@ describe("Validation tests", function() {
 
     });
 
+    describe("#regex", function() {
+
+        it('should validate an implied RegExp object', function(done) {
+
+            expect(validation.regex('test-testington', /(TEST)\-(\w+)/i)).to.be.true;
+
+            done();
+
+        });
+
+        it('should validate a full RegExp object', function(done) {
+
+            var regex = new RegExp('(test)\\-(\\w+)');
+
+            expect(validation.regex('test-testington', regex)).to.be.true;
+
+            done();
+
+        });
+
+        it('should validate against a string', function(done) {
+
+            var regex = '(test)\\-(\\w+)';
+
+            expect(validation.regex('test-testington', regex)).to.be.true;
+
+            done();
+
+        });
+
+        it('should throw an error when it fails to match', function(done) {
+
+            var fail = false;
+
+            try {
+                validation.regex('test-testington', /(test)\_(\w+)/);
+            } catch(err) {
+
+                fail = true;
+
+                expect(err).to.be.instanceof(Error);
+                expect(err.message).to.be.equal('VALUE_REGEX_FAILED_TO_MATCH');
+                expect(err.value).to.be.equal('test-testington');
+                expect(err.params).to.be.eql([
+                    '/(test)\\_(\\w+)/'
+                ]);
+
+            }
+
+            expect(fail).to.be.true;
+
+            done();
+
+        });
+
+        it('should throw an error when neither a RegExp or string is passed', function(done) {
+
+            var fail = false;
+
+            try {
+                validation.regex('test-testington', [/(test)\_(\w+)/]);
+            } catch(err) {
+
+                fail = true;
+
+                expect(err).to.be.instanceof(Error);
+                expect(err.message).to.be.equal('VALUE_REGEX_NOT_REGEXP_OR_STRING');
+                expect(err.value).to.be.equal('test-testington');
+                expect(String(err.params)).to.be.eql('/(test)\\_(\\w+)/');
+
+            }
+
+            expect(fail).to.be.true;
+
+            done();
+
+        });
+
+    });
+
 });
