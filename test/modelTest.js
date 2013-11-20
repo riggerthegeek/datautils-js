@@ -1486,13 +1486,73 @@ describe("Model tests", function() {
 
         describe("Invalid functions", function() {
 
-            it('should throw an error when function not in validation', function(done) {
+            it('should throw an error when function not in validation object', function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        str: {
+                            type: "string",
+                            validation: [{
+                                rule: "minimumLength",
+                                param: 8
+                            }]
+                        }
+                    }
+                });
+
+                var fail = false;
+
+                var obj;
+                try {
+                    obj = new Model({
+                        str: "some string"
+                    });
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal('minimumLength is not a validation function');
+                }
+
+                expect(obj).to.be.undefined;
+                expect(fail).to.be.true;
 
                 done();
 
             });
 
             it('should throw an error when non-function given', function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        str: {
+                            type: "string",
+                            validation: [{
+                                rule: {},
+                                param: 8
+                            }]
+                        }
+                    }
+                });
+
+                var fail = false;
+
+                var obj;
+                try {
+                    obj = new Model({
+                        str: "some string"
+                    });
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal('[object Object] is not a function or string');
+                }
+
+                expect(obj).to.be.undefined;
+                expect(fail).to.be.true;
 
                 done();
 
