@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="build" basedir=".">
-    
+
     <property name="module.build.dir" value="${basedir}/build" />
-    
+
     <tstamp>
         <format property="now" pattern="yyyyMMddHHmm" />
     </tstamp>
@@ -67,7 +67,7 @@
     <target name="build" depends="clean, init, npm-install-dev, test" >
 
         <echo message="Building ${package.name}" />
-        
+
         <antcall target="clean" />
         <antcall target="npm-install" />
         <antcall target="stage" />
@@ -79,7 +79,7 @@
     <target name="clean" depends="init">
 
         <echo message="Cleaning ${package.name}" />
-        
+
         <!-- Remove build directories -->
         <delete dir="${module.build.dir}" />
         <delete dir="${basedir}/node_modules" />
@@ -87,23 +87,23 @@
     </target>
 
     <target name="ci" depends="init, npm-install-dev, test" >
-        
+
         <echo message="Running Continuous Integration tests on ${package.name}" />
-        
+
     </target>
-    
+
     <target name="dev-package" depends="init, npm-install-dev, stage, generate-build-number, package">
 
         <echo message="Development package of ${package.name}" />
 
     </target>
-    
+
     <target name="generate-build-number" depends="init">
 
         <echo message="Generating build number" />
 
         <property name="build.number" value="${now}" />
-        
+
         <echo message="${build.number}" file="${staging.dir}/build-number" />
     	<copy file="${staging.dir}/package.json" tofile="${staging.dir}/package.json.tmp" />
     	<delete file="${staging.dir}/package.json" />
@@ -112,17 +112,17 @@
     </target>
 
     <target name="init" depends="package-json">
-    
+
         <echo message="Initializing build for ${package.name}" />
-        
+
         <property name="staging.dir" value="${module.build.dir}/staging" />
         <property name="dist.dir" value="${module.build.dir}/dist" />
         <mkdir dir="${module.build.dir}" />
         <mkdir dir="${staging.dir}" />
         <mkdir dir="${dist.dir}" />
-    
+
     </target>
-    
+
     <target name="npm-install" depends="init">
 
         <echo message="Resolving public dependencies for ${package.name}" />
@@ -133,7 +133,7 @@
         </exec-node>
 
     </target>
-    
+
     <target name="npm-install-dev" depends="init">
 
         <echo message="Resolving dev dependencies for ${package.name}" />
@@ -143,16 +143,16 @@
         </exec-node>
 
     </target>
-    
+
     <target name="package" depends="init, stage">
 
         <echo message="Packaging ${package.name} to a zip" />
-        
+
         <exec-node-out module="npm" dir="${dist.dir}" outputproperty="pack.out">
             <arg value="pack" />
             <arg value="${staging.dir}" />
         </exec-node-out>
-        
+
         <copy file="${dist.dir}/${pack.out}" tofile="${dist.dir}/${package.name}-latest.tgz" />
 
     </target>
@@ -195,39 +195,11 @@
     	</script>
 
     </target>
-    
-    <target name="publish" depends="init">
-        
-        <echo message="Publishing a new version of ${package.name}" />
-        
-        <input message="What do you want to deploy?" addproperty="npm.version" />
-        
-        <exec-node module="npm">
-            <arg value="version" />
-            <arg value="${npm.version}" />
-        </exec-node>
-        
-        <antcall target="build" />
-        
-        <echo message="Publish ${package.name}@${npm.version}" />
-    
-        <exec-node module="npm">
-            <arg value="publish" />
-            <arg value="${dist.dir}/${package.name}-latest.tgz" />
-        </exec-node>
-    
-        <echo message="Pushing ${package.name}@${npm.version} changes" />
-            
-        <exec-node module="git">
-            <arg value="push" />
-        </exec-node>
-        
-    </target>
-    
+
     <target name="stage" depends="init">
 
         <echo message="Staging ${package.name}" />
-        
+
         <echo message="${module.build.dir}" />
 
         <copy todir="${staging.dir}" includeEmptyDirs="true">
@@ -251,5 +223,5 @@
         </exec-node>
 
     </target>
-    
+
 </project>
