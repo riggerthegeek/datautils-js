@@ -1326,6 +1326,180 @@ describe("Model tests", function() {
 
         });
 
+        describe('Matching another field', function() {
+
+            var Model;
+
+            before(function() {
+
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        password: {
+                            type: "string",
+                            validation: [{
+                                rule: "minLength",
+                                param: 8
+                            }]
+                        },
+                        password2: {
+                            type: "string",
+                            validation: [{
+                                rule: "match",
+                                param: "password"
+                            }]
+                        }
+                    }
+                });
+
+            });
+
+            it('should validate the model', function(done) {
+
+                var obj = new Model({
+                    password: "tnetennba",
+                    password2: "tnetennba"
+                });
+
+                expect(obj.validate()).to.be.true;
+
+                done();
+
+            });
+
+            it('should fail when the password is to short', function(done) {
+
+                var obj = new Model({
+                    password: "Moss",
+                    password2: "Moss"
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        password: [{
+                            message: "VALUE_LESS_THAN_MIN_LENGTH",
+                            value: "Moss",
+                            params: [
+                                8
+                            ]
+                        }]
+                    });
+
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+            it("should fail when the password doesn't match", function(done) {
+
+                var obj = new Model({
+                    password: "MauriceMoss",
+                    password2: "RoyTrenneman"
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        password2: [{
+                            message: "VALUE_DOES_NOT_MATCH",
+                            value: "RoyTrenneman",
+                            params: [
+                                "MauriceMoss"
+                            ]
+                        }]
+                    });
+
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+            it('should fail when both rules fail', function(done) {
+
+                var obj = new Model({
+                    password: "Jen",
+                    password2: "Roy"
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        password: [{
+                            message: "VALUE_LESS_THAN_MIN_LENGTH",
+                            value: "Jen",
+                            params: [
+                                8
+                            ]
+                        }],
+                        password2: [{
+                            message: "VALUE_DOES_NOT_MATCH",
+                            value: "Roy",
+                            params: [
+                                "Jen"
+                            ]
+                        }]
+                    });
+
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+        });
+
+        describe("Invalid functions", function() {
+
+            it('should throw an error when function not in validation', function(done) {
+
+                done();
+
+            });
+
+            it('should throw an error when non-function given', function(done) {
+
+                done();
+
+            });
+
+        });
+
     });
 
 });
