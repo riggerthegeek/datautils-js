@@ -6,16 +6,6 @@ node_js:
 - '0.6'
 script:
 - ant -f build.xml ci
-deploy:
-  provider: npm
-  email: simon@simonemms.com
-  api_key:
-    secure: Bu1MLETcRbJjqkNILInEYAOEBVrh2AOk8nX1iQRNrnrn+WE2EvNDozaqCgH5I2mzH109Vvd7v/eSiCdWNxOmLXA26NYPkWlaTwWcRKywagu7Z2FOvtSVU0AbByQrigLJFa6NHZMdrfRLVrPPsyVXMgj8+nVz/T/N5M1ZhvxM+5A=
-  on:
-    branch: master
-    tags: true
-    node: 0.10
-    repo: riggerthegeek/datautils-js
 notifications:
   email:
     recipients:
