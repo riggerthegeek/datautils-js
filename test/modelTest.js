@@ -823,7 +823,7 @@ describe("Model tests", function() {
 
         });
 
-        describe('Validate rules that receive parameters', function() {
+        describe('Validate rules that receive a single parameter', function() {
 
             var Model;
 
@@ -891,6 +891,80 @@ describe("Model tests", function() {
 
         });
 
+        describe('Validate rules that receive multiple parameters', function() {
+
+            var Model;
+
+            before(function() {
+
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        name: {
+                            type: "string",
+                            validation: [{
+                                rule: "lengthBetween",
+                                param: [
+                                    5,
+                                    10
+                                ]
+                            }]
+                        }
+                    }
+                });
+
+            });
+
+            it('should validate the multi-parameter rule', function(done) {
+
+                var obj = new Model({
+                    name: "The name"
+                });
+
+                expect(obj.validate()).to.be.true;
+
+                done();
+
+            });
+
+            it('should throw an error if the name is too short', function(done) {
+
+                var obj = new Model({
+                    name: "name"
+                });
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        name: [{
+                            message: "VALUE_NOT_BETWEEN_MINLENGTH_AND_MAXLENGTH",
+                            value: "name",
+                            params: [
+                                5,
+                                10
+                            ]
+                        }]
+                    });
+
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+        });
+
         describe('Validate against custom validation rules', function() {
 
             describe('No parameters passed', function() {
@@ -909,7 +983,9 @@ describe("Model tests", function() {
                                         if(value === 'throw') {
                                             throw new Error('THROWN_ERROR');
                                         }
-                                        return value === "Hello";
+                                        var result = value === "Hello";
+                                        console.log(result);
+                                        return result;
                                     }
                                 }]
                             }
