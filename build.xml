@@ -76,7 +76,7 @@
 
     </target>
 
-    <target name="ci" depends="init, npm-install-dev, test" >
+    <target name="ci" depends="init, npm-install-dev, test, coverage" >
 
         <echo message="Running Continuous Integration tests on ${package.name}" />
 
