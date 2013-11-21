@@ -1206,11 +1206,102 @@ describe("Validation tests", function() {
 
     describe('#greaterThan', function() {
 
-        it('should validate a number or numerical string');
+        it('should validate a number or numerical string', function(done) {
 
-        it('should throw error when number or numerical string not-matched');
+            expect(validation.greaterThan(1235, 1234)).to.be.true;
+            expect(validation.greaterThan("12.35", "12.34")).to.be.true;
+            expect(validation.greaterThan("+12340", 1234)).to.be.true;
+            expect(validation.greaterThan(-524.2455, "-524.2456")).to.be.true;
+            expect(validation.greaterThan(Number(30000000), Number(-30000000))).to.be.true;
 
-        it('should throw type error when different data type given');
+            done();
+
+        });
+
+        it('should throw error when number or numerical string not-matched', function(done) {
+
+            var arr = [{
+                value: 12,
+                match: 12
+            }, {
+                value: "12",
+                match: "13"
+            }, {
+                value: 1.234,
+                match: 1.235
+            }, {
+                value: -524.2456,
+                match: -524.2455
+            }];
+
+            expect(arr).to.have.length(4);
+
+            arr.forEach(function(obj) {
+
+                var fail = false;
+
+                try {
+                    validation.greaterThan(obj.value, obj.match);
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+
+                    expect(err.message).to.be.equal("VALUE_NOT_GREATER_THAN_TARGET");
+                    expect(err.value).to.be.equal(obj.value);
+                    expect(err.params).to.be.eql([obj.match]);
+
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
+
+        it('should throw type error when different data type given', function(done) {
+
+            var arr = [{
+                value: 12,
+                match: "kevin"
+            }, {
+                value: "smith",
+                match: new Date()
+            }, {
+                value: {},
+                match: []
+            }];
+
+            expect(arr).to.have.length(3);
+
+            arr.forEach(function(obj) {
+
+                var fail = false;
+
+                try {
+                    validation.greaterThan(obj.value, obj.match);
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+
+                    expect(err.message).to.be.equal("VALUE_NOT_GREATER_THAN_TYPE_ERROR");
+                    expect(err.value).to.be.eql(obj.value);
+                    expect(err.params).to.be.eql([obj.match]);
+
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
 
     });
 
