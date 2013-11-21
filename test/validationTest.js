@@ -1060,4 +1060,188 @@ describe("Validation tests", function() {
 
     });
 
+    describe('#equal', function() {
+
+        var TestObject = function(options) {
+            this.string = options.string || null;
+            this.number = options.number || null;
+            this.blank = options.blank || null;
+
+            return this;
+        };
+
+        it('should validate scalar values', function(done) {
+
+            expect(validation.equal('striNg', 'striNg')).to.be.true;
+            expect(validation.equal('This is a much longer string - !"£$%^&*()_+`¬', 'This is a much longer string - !"£$%^&*()_+`¬')).to.be.true;
+            expect(validation.equal(222, 222)).to.be.true;
+            expect(validation.equal(12.34, 12.34)).to.be.true;
+            expect(validation.equal(false, false)).to.be.true;
+            expect(validation.equal(true, true)).to.be.true;
+            expect(validation.equal(undefined, undefined)).to.be.true;
+
+            done();
+
+        });
+
+        it('should validate non-scalar values', function(done) {
+
+            expect(validation.equal(new Date(), new Date())).to.be.true;
+            expect(validation.equal(NaN, NaN)).to.be.true;
+            expect(validation.equal({hello: "mate"}, {"hello": "mate"})).to.be.true;
+            expect(validation.equal([1,2,3,"456", "kevin"], [1,2,3,"456", "kevin"])).to.be.true;
+            expect(validation.equal(new TestObject({string: "string", number: 84}), new TestObject({string: "string", number: 84}))).to.be.true;
+
+            done();
+
+        });
+
+        it('should throw errors on non-matching scalar values', function(done) {
+
+            var array = [{
+                value: "striNg",
+                match: "string"
+            }, {
+                value: "This is a much longer string - !\"£$%^&*()_+`¬",
+                match: "This is a very different string - !$%&^$(%*£)("
+            }, {
+                value: 222,
+                match: 221
+            }, {
+                value: 12.34,
+                match: "12.35"
+            }, {
+                value: true,
+                match: false
+            }, {
+                value: false,
+                match: true
+            }, {
+                value: 222,
+                match: "222"
+            }, {
+                value: "12.34",
+                match: 12.34
+            }, {
+                value: undefined,
+                match: null
+            }];
+
+            expect(array).to.have.length(9);
+
+            array.forEach(function(obj) {
+
+                var fail = false;
+
+                try {
+                    validation.equal(obj.value, obj.match);
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+
+                    expect(err.message).to.be.equal("VALUES_NOT_EQUAL");
+                    expect(err.value).to.be.equal(obj.value);
+                    expect(err.params).to.be.eql([obj.match]);
+
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
+
+        it('should throw errors on non-matching non-scalar values', function(done) {
+
+            var array = [{
+                value: new Date(),
+                match: new Date('2013-02-07')
+            }, {
+                value: NaN,
+                match: 2
+            }, {
+                value: {hello: "mate"},
+                match: {hello: "matey"}
+            }, {
+                value: [1,2,"3","456", "kevin"],
+                match: [1,2,3,"456", "kevin"]
+            }, {
+                value: new TestObject({string: "string", number: 84}),
+                match: new TestObject({string: "string", number: 83})
+            }];
+
+            expect(array).to.have.length(5);
+
+            array.forEach(function(obj) {
+
+                var fail = false;
+
+                try {
+                    validation.equal(obj.value, obj.match);
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+
+                    expect(err.message).to.be.equal("VALUES_NOT_EQUAL");
+                    expect(err.value).to.be.eql(obj.value);
+                    expect(err.params).to.be.eql([obj.match]);
+
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
+
+    });
+
+    describe('#greaterThan', function() {
+
+        it('should validate a number or numerical string');
+
+        it('should throw error when number or numerical string not-matched');
+
+        it('should throw type error when different data type given');
+
+    });
+
+    describe('#greaterThanOrEqual', function() {
+
+        it('should validate a number or numerical string');
+
+        it('should throw error when number or numerical string not-matched');
+
+        it('should throw type error when different data type given');
+
+    });
+
+    describe('#lessThan', function() {
+
+        it('should validate a number or numerical string');
+
+        it('should throw error when number or numerical string not-matched');
+
+        it('should throw type error when different data type given');
+
+    });
+
+    describe('#lessThanOrEqual', function() {
+
+        it('should validate a number or numerical string');
+
+        it('should throw error when number or numerical string not-matched');
+
+        it('should throw type error when different data type given');
+
+    });
+
 });
