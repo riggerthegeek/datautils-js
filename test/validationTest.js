@@ -1515,11 +1515,108 @@ describe("Validation tests", function() {
 
     describe('#lessThanOrEqual', function() {
 
-        it('should validate a number or numerical string');
+        it('should validate a number or numerical string', function(done) {
 
-        it('should throw error when number or numerical string not-matched');
+            expect(validation.lessThanOrEqual(1234, 1235)).to.be.true;
+            expect(validation.lessThanOrEqual("12.34", "12.35")).to.be.true;
+            expect(validation.lessThanOrEqual(1234, "+12340")).to.be.true;
+            expect(validation.lessThanOrEqual("-524.2456", -524.2455)).to.be.true;
+            expect(validation.lessThanOrEqual(Number(-30000000), Number(30000000))).to.be.true;
 
-        it('should throw type error when different data type given');
+            expect(validation.lessThanOrEqual(1234, 1234)).to.be.true;
+            expect(validation.lessThanOrEqual("12.34", "12.34")).to.be.true;
+            expect(validation.lessThanOrEqual("+1234", 1234)).to.be.true;
+            expect(validation.lessThanOrEqual(-524.2456, "-524.2456")).to.be.true;
+            expect(validation.lessThanOrEqual(Number(-30000000), Number(-30000000))).to.be.true;
+
+            done();
+
+        });
+
+        it('should throw error when number or numerical string not-matched', function(done) {
+
+            var arr = [{
+                match: 12,
+                value: 145960789
+            }, {
+                match: "12",
+                value: "13"
+            }, {
+                match: 1.234,
+                value: 1.235
+            }, {
+                match: -524.2456,
+                value: -524.2455
+            }];
+
+            expect(arr).to.have.length(4);
+
+            arr.forEach(function(obj) {
+
+                var fail = false;
+
+                try {
+                    validation.lessThanOrEqual(obj.value, obj.match);
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+
+                    expect(err.message).to.be.equal("VALUE_NOT_LESS_OR_EQUAL_TO_TARGET");
+                    expect(err.value).to.be.equal(obj.value);
+                    expect(err.params).to.be.eql([obj.match]);
+
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
+
+        it('should throw type error when different data type given', function(done) {
+
+            var arr = [{
+                match: 12,
+                value: "kevin"
+            }, {
+                match: "smith",
+                value: new Date()
+            }, {
+                match: {},
+                value: []
+            }];
+
+            expect(arr).to.have.length(3);
+
+            arr.forEach(function(obj) {
+
+                var fail = false;
+
+                try {
+                    validation.lessThanOrEqual(obj.value, obj.match);
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+
+                    expect(err.message).to.be.equal("VALUE_LESS_OR_EQUAL_TO_TYPE_ERROR");
+                    expect(err.value).to.be.eql(obj.value);
+                    expect(err.params).to.be.eql([obj.match]);
+
+                }
+
+                expect(fail).to.be.true;
+
+            });
+
+            done();
+
+        });
 
     });
 
