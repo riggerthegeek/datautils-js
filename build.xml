@@ -80,13 +80,6 @@
 
         <echo message="Running Continuous Integration tests on ${package.name}" />
 
-        <!-- Copy of the build tasks -->
-        <antcall target="clean" />
-        <antcall target="npm-install" />
-        <antcall target="stage" />
-        <antcall target="generate-build-number" />
-        <antcall target="package" />
-
     </target>
 
     <target name="clean" depends="init">
