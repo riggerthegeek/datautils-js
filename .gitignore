@@ -1,5 +1,5 @@
 /build/
-.idea
+/coverage/
 /node_modules/
 /nbproject/
 npm-debug.log

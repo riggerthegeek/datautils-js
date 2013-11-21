@@ -76,6 +76,12 @@
 
     </target>
 
+    <target name="ci" depends="init, npm-install-dev, test" >
+
+        <echo message="Running Continuous Integration tests on ${package.name}" />
+
+    </target>
+
     <target name="clean" depends="init">
 
         <echo message="Cleaning ${package.name}" />
@@ -86,9 +92,18 @@
 
     </target>
 
-    <target name="ci" depends="init, npm-install-dev, test" >
+    <target name="coverage" depends="init, npm-install-dev">
 
-        <echo message="Running Continuous Integration tests on ${package.name}" />
+        <echo message="Creating coverage report for ${package.name}" />
+
+        <exec-node module="node">
+            <arg value="node_modules/.bin/istanbul" />
+            <arg value="cover" />
+            <arg value="${basedir}/node_modules/.bin/_mocha" />
+            <arg value="--" />
+            <arg value="-R" />
+            <arg value="spec" />
+        </exec-node>
 
     </target>
 
@@ -240,6 +255,7 @@
             <fileset dir=".">
                 <exclude name="build.xml" />
                 <exclude name="**/*build*/**" />
+                <exclude name="**/*coverage*/**" />
                 <exclude name="**/*nbproject*/**" />
                 <exclude name="**/*test*/**" />
                 <exclude name="**/.*/**" />
