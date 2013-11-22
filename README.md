@@ -18,9 +18,11 @@ This module uses the [Revealing Module Pattern](http://addyosmani.com/resources/
 
     /* To get to the arrays */
     var datautils = require('datautils');
-    
+
     var array = datautils.array;
     var data = datautils.data;
+    var model = datautils.model;
+    var validation = datautils.validation;
 
 # Documentation
 
@@ -39,6 +41,24 @@ This module uses the [Revealing Module Pattern](http://addyosmani.com/resources/
  - [setObject](#setObject)
  - [setString](#setString)
 
+## Model
+The model is much more complex than can be explained here.  Please see the [Model](MODEL.md)
+documentation for a detailed explaination of how it works.
+
+## Validation
+ - [email](#email)
+ - [equal](#equal)
+ - [greaterThan](#greaterThan)
+ - [greaterThanOrEqual](#greaterThanOrEqual)
+ - [length](#length)
+ - [lengthBetween](#lengthBetween)
+ - [lessThan](#lessThan)
+ - [lessThanOrEqual](#lessThanOrEqual)
+ - [maxLength](#maxLength)
+ - [minLength](#minLength)
+ - [regex](#regex)
+ - [required](#required)
+
 # Array
 
 <a name="inArray" />
@@ -52,7 +72,7 @@ type) inside the haystack (an array).
     var haystack = [
        'val1', 'val2', 'val3'
     ];
-    
+
     datautils.array.inArray('val2', haystack); // true
     datautils.array.inArray('val4', haystack); // false
 
@@ -68,7 +88,7 @@ function
         name: 'Name',
         email: 'test@test.com'
     };
-    
+
     datautils.array.objectValues(obj); // ['Name', test@test.com']
 
 # Data
@@ -124,7 +144,7 @@ be a function.  This function can be injected into this method.
 ### _mixed_ setInt(_mixed_ input, _mixed_ def)
 
 Ensures that the input is an integer.  This can be either a string, or a
-number.  In reality, this pushes it to the JavaScript Number object 
+number.  In reality, this pushes it to the JavaScript Number object
 (which can be made to be a floating point number.  However, this function
 ensures that value that is returned it an integer.  If you pass over
 Number(1) or String(3.0), they are returned as Number(1) and Number(3).
@@ -152,3 +172,87 @@ by passing in some _values_.
     ];
     val1 = datautils.data.setString('val1', null, values); // 'val1'
     val2 = datautils.data.setString('val4', null, values); // null
+
+# Validation
+
+The model stuff primarily all works in the same way - if it passes the test it
+returns `true`, if it fails the test or the wrong input is entered it throws an
+error.
+
+## Error Object
+
+The error object is an extension of the default JavaScript Error object.  It has
+a maximum of three parameters - the `message` (as the Error object has by default),
+`value` (the value passed in) and `params` (an array of any other paramaters passed
+in).
+
+For instance, the function `validation.greaterThan(8, 10);` throws an error
+(because 8 is less than 10).  `err.message` equals VALUE_NOT_GREATER_THAN_TARGET,
+`err.value` = 8 and `err.params` = [ 10 ].
+
+<a name="email" />
+### _boolean_ email(_string_ value)
+
+Checks if the given string validates as an email address. THIS DOES NOT CHECK IF
+THE EMAIL IS ACTUALLY VALID!!!
+
+<a name="equal" />
+### _boolean_ equal(_mixed_ value, _mixed_ match)
+
+This tests if the two variables are equal. If the variables are of a complex
+nature (eg, objects), then it will match those too.
+
+<a name="greaterThan" />
+### _boolean_ greaterThan(_number_ value, _number_ target)
+
+Does a numerical test on the variable, to see if it is greater than the given
+value.
+
+<a name="greaterThanOrEqual" />
+### _boolean_ greaterThanOrEqual(_number_ value, _number_ target)
+
+Does a numerical test on the variable, to see if it is greater than or equal to
+the given value.
+
+<a name="length" />
+### _boolean_ length(_string_ value, _number_ length)
+
+Makes sure that the value matches the length.
+
+<a name="lengthBetween" />
+### _boolean_ lengthBetween(_string_ value, _number_ minLength, _number_ maxLength)
+
+Checks if the value is between the two lengths.
+
+<a name="lessThan" />
+### _boolean_ lessThan(_string_ value, _number_ target)
+
+Does a numerical test on the variable, to see if it is less than the given value.
+
+<a name="lessThanOrEqual" />
+### _boolean_ lessThanOrEqual(_string_ value, _number_ target)
+
+Does a numerical test on the variable, to see if it is less than or equal to the
+given value.
+
+<a name="maxLength" />
+### _boolean_ maxLength(_string_ value, _number_ length)
+
+Ensures that the value is no longer than the given max length.
+
+<a name="minLength" />
+### _boolean_ minLength(_string_ value, _number_ length)
+
+Ensures that the value fulfils the given minimum length.
+
+<a name="regex" />
+### _boolean_ regex(_string_ value, _RegExp/string_ regex)
+
+Matches the given value against the given regular expression.  It will allow
+either a string or an instance of the RegExp object (by either `new RegExp()` or
+`/regex/`).
+
+<a name="required" />
+### _boolean_ required(_string_ value)
+
+If it's a truthy value, 0 or false, it is ok. Otherwise, it fails the test
