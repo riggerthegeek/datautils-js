@@ -211,6 +211,152 @@ describe("Model tests", function() {
 
         });
 
+        describe("Primary keys", function() {
+
+            it('should set no primary key value', function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        dataId: {
+                            type: "integer",
+                            value: null,
+                            column: "id"
+                        },
+                        name: {
+                            type: "string"
+                        }
+                    }
+                });
+
+                var obj = new Model({
+                    dataId: 1,
+                    name: "Dave"
+                });
+
+                expect(obj.getPrimaryKey()).to.be.null;
+                expect(obj.getPrimaryKeyValue()).to.be.undefined;
+
+                var from = Model.toModel({
+                    id: 1,
+                    name: "Dave"
+                });
+
+                expect(from.getPrimaryKey()).to.be.null;
+                expect(from.getPrimaryKeyValue()).to.be.undefined;
+
+                done();
+
+            });
+
+            it('should set the primary key', function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        dataId: {
+                            type: "integer",
+                            value: null,
+                            column: "id",
+                            primaryKey: true
+                        },
+                        name: {
+                            type: "string"
+                        }
+                    }
+                });
+
+                var obj = new Model();
+
+                expect(obj.getPrimaryKey()).to.be.equal("dataId");
+                expect(obj.getPrimaryKeyValue()).to.be.null;
+
+                var from = Model.toModel();
+
+                expect(from.getPrimaryKey()).to.be.equal("dataId");
+                expect(from.getPrimaryKeyValue()).to.be.null;
+
+                done();
+
+            });
+
+            it('should set the primary key value', function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        dataId: {
+                            type: "integer",
+                            value: null,
+                            column: "id",
+                            primaryKey: true
+                        },
+                        name: {
+                            type: "string"
+                        }
+                    }
+                });
+
+                var obj = new Model({
+                    dataId: 1,
+                    name: "Dave"
+                });
+
+                expect(obj.getPrimaryKey()).to.be.equal("dataId");
+                expect(obj.getPrimaryKeyValue()).to.be.equal(1);
+
+                var from = Model.toModel({
+                    id: 1,
+                    name: "Dave"
+                });
+
+                expect(from.getPrimaryKey()).to.be.equal("dataId");
+                expect(from.getPrimaryKeyValue()).to.be.equal(1);
+
+                done();
+
+            });
+
+            it('should throw error when more than one primary key is given', function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        dataId: {
+                            type: "integer",
+                            value: null,
+                            column: "id",
+                            primaryKey: true
+                        },
+                        name: {
+                            type: "string",
+                            value: null,
+                            primaryKey: true
+                        }
+                    }
+                });
+
+                var fail = false;
+
+                try {
+                    obj = new Model();
+                } catch(err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal("CANNOT_SET_MULTIPLE_PRIMARY_KEYS");
+
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+        });
+
         describe("The mixed datatype", function() {
 
             var Model;
