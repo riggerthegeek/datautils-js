@@ -66,9 +66,7 @@ describe("Model tests", function() {
                         },
                         string: {
                             type: "string"
-                        },
-                        notSet: {},
-                        notSetNull: null
+                        }
                     }
                 });
 
@@ -87,9 +85,7 @@ describe("Model tests", function() {
                     object: {
                         an: "object", "with": "things", and: 2
                     },
-                    string: "some string",
-                    notSet: "if not set, it is a string",
-                    notSetNull: "if not set, it is a string"
+                    string: "some string"
                 });
 
                 expect(obj1).to.be.instanceof(Model);
@@ -105,9 +101,7 @@ describe("Model tests", function() {
                     object: {
                         an: "object", "with": "things", and: 2
                     },
-                    string: "some string",
-                    notSet: "if not set, it is a string",
-                    notSetNull: "if not set, it is a string"
+                    string: "some string"
                 });
                 expect(obj1.toObject()).to.be.eql({
                     array: [
@@ -120,9 +114,7 @@ describe("Model tests", function() {
                     object: {
                         an: "object", "with": "things", and: 2
                     },
-                    string: "some string",
-                    notSet: "if not set, it is a string",
-                    notSetNull: "if not set, it is a string"
+                    string: "some string"
                 });
                 expect(obj1.set("invalid", "a string")).to.be.undefined;
                 expect(obj1.get("invalid")).to.be.undefined;
@@ -147,9 +139,7 @@ describe("Model tests", function() {
                     float: null,
                     integer: null,
                     object: null,
-                    string: null,
-                    notSet: null,
-                    notSetNull: null
+                    string: null
                 });
 
                 /* Check stuff can be set */
@@ -170,8 +160,7 @@ describe("Model tests", function() {
                     date: "2013-02-07 10:20:30",
                     float: "3",
                     int: 4,
-                    string: "hello this is a string",
-                    notSet: null
+                    string: "hello this is a string"
                 });
 
                 expect(obj).to.be.instanceof(Model);
@@ -183,9 +172,7 @@ describe("Model tests", function() {
                     float: 3,
                     integer: 4,
                     object: null,
-                    string: "hello this is a string",
-                    notSet: null,
-                    notSetNull: null
+                    string: "hello this is a string"
                 });
 
                 /* Check stuff can be set */
@@ -215,10 +202,164 @@ describe("Model tests", function() {
                     float: null,
                     integer: null,
                     object: null,
-                    string: null,
-                    notSet: null,
-                    notSetNull: null
+                    string: null
                 });
+
+                done();
+
+            });
+
+        });
+
+        describe("The mixed datatype", function() {
+
+            var Model;
+
+            before(function() {
+
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        mixed: {
+                            type: "mixed",
+                            value: null
+                        }
+                    }
+                });
+
+            });
+
+            it('should create a mixed definition', function(done) {
+
+                var obj = new Model({
+                    mixed: "string"
+                });
+
+                expect(obj.get("mixed")).to.be.equal("string");
+
+                /* Now set all datatypes */
+                var arrTypes = [
+                    "222",
+                    222,
+                    22.22,
+                    new Date(),
+                    {},
+                    {type: "string"},
+                    ["array"],
+                    null,
+                    true,
+                    false
+                ];
+
+                arrTypes.forEach(function(value) {
+
+                    expect(obj.set("mixed", value)).to.be.undefined;
+                    expect(obj.get("mixed")).to.be.equal(value);
+
+                });
+
+                var arrObjTypes = [
+                    NaN
+                ];
+
+                arrObjTypes.forEach(function(value) {
+
+                    expect(obj.set("mixed", value)).to.be.undefined;
+                    expect(obj.get("mixed")).to.be.eql(value);
+
+                });
+
+                expect(obj.set("mixed", undefined)).to.be.undefined;
+                expect(obj.get("mixed")).to.be.equal(null);
+
+                done();
+
+            });
+
+        });
+
+        describe("Invalid datatypes", function() {
+
+            it('should throw an error when you create model with no type', function(done) {
+
+                var fail = false;
+
+                var Model = model.extend({
+                    definition: {
+                        notSet: null
+                    }
+                });
+
+                try {
+                    var obj = new Model();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(TypeError);
+                    expect(err.message).to.be.equal("DATATYPE_NOT_VALID");
+                    expect(err.type).to.be.null;
+
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+            it('should throw an error when you create model with no null type', function(done) {
+
+                var fail = false;
+
+                var Model = model.extend({
+                    definition: {
+                        notSet: {
+                            type: null
+                        }
+                    }
+                });
+
+                try {
+                    var obj = new Model();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(TypeError);
+                    expect(err.message).to.be.equal("DATATYPE_NOT_VALID");
+                    expect(err.type).to.be.null;
+
+                }
+
+                expect(fail).to.be.true;
+
+                done();
+
+            });
+
+            it('should throw an error when you create model with invalid data type', function(done) {
+
+                var fail = false;
+
+                var Model = model.extend({
+                    definition: {
+                        notSet: {
+                            type: "banana"
+                        }
+                    }
+                });
+
+                try {
+                    var obj = new Model();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(TypeError);
+                    expect(err.message).to.be.equal("DATATYPE_NOT_VALID");
+                    expect(err.type).to.be.equal("banana");
+
+                }
+
+                expect(fail).to.be.true;
 
                 done();
 
