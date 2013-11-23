@@ -767,6 +767,28 @@ describe("Model tests", function() {
 
             });
 
+            it('should not throw an error when email not specified and not required', function(done) {
+
+                var M = model.extend({
+                    definition: {
+                        email: {
+                            type: "string",
+                            value: null,
+                            validation: [{
+                                rule: "email"
+                            }]
+                        }
+                    }
+                });
+
+                var obj = new M();
+
+                expect(obj.validate()).to.be.true;
+
+                done();
+
+            });
+
             it('should throw error when string is null', function(done) {
 
                 var obj = new Model();
@@ -1104,9 +1126,6 @@ describe("Model tests", function() {
                     expect(err.getErrors()).to.be.eql({
                         emailAddress1: [{
                             message: "VALUE_REQUIRED",
-                            value: null
-                        }, {
-                            message: "VALUE_NOT_EMAIL_NOT_STRING",
                             value: null
                         }]
                     });
