@@ -785,6 +785,33 @@ describe("Model tests", function() {
 
                 expect(obj.validate()).to.be.true;
 
+                obj.set('email', 'notanemail');
+
+                var fail = false;
+
+                try {
+                    obj.validate();
+                } catch(err) {
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.getType()).to.be.equal("ModelError");
+
+                    expect(err.getErrors()).to.be.eql({
+                        email: [{
+                            message: "VALUE_NOT_EMAIL",
+                            value: "notanemail"
+                        }]
+                    });
+
+                }
+
+                expect(fail).to.be.true;
+
+                obj.set("email", "test@test.com");
+
+                expect(obj.validate()).to.be.true;
+
                 done();
 
             });
