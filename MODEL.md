@@ -69,6 +69,58 @@ the `type` casts it (see [Data Type](#datatypes) for more information)
         "email": "test@test.com"
     }
 
+## Getters and Setters
+
+By default, you have the basic `get` and `set` method on the object.
+
+	var obj = new Model({
+    	key: "value"
+    });
+
+Now `obj.get("key");` will return `value` and you can update this by doing `obj.set("key", "newValue");`  This will now return `newValue`.
+
+### Customised Setters
+
+That will work for the majority of cases, but sometimes you'll want to do something to the data before actually setting it to the model.  Fortunately, we can pass in function.  The name **_must_** be in the format `setKeyname`.  It receives two parameters - the value you are trying to set and the default value.
+
+	var Model = model.extend({
+    	definition: {
+        	key: {
+            	type: "string",
+                value: null
+            }
+        },
+        /* Capitalise the K in key */
+        setKey: function(value, defaults) {
+
+        	/* Usually declared at top of file */
+        	var datatype = require("datautils").data;
+
+            value = datatype.setString(value, defaults);
+
+            if(value !== defaults) {
+            	/* Prepend the string */
+            	value = "prepend-" + value;
+            }
+
+            /**
+             * Now we can use the normal setter to set
+             * the value.  We need to add a third parameter
+             * of false so it doesn't enter into an
+             * infinite loop
+             */
+            this.set("key", value, false);
+
+        }
+    });
+
+    /* Create a model */
+    var obj = new Model({
+    	key: "value"
+    });
+
+Now when we run `obj.get("key")`, it will return `prepend-value`.  Again, you can use the `obj.set("key", "newValue")` to return `prepend-newValue;`
+
 ## Validating Data
 
 In an ideal world, anyone working with this model would behave themselves and

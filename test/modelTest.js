@@ -211,6 +211,83 @@ describe("Model tests", function() {
 
         });
 
+        describe("Model getters and setters", function() {
+
+            it("should use the default setter", function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        simple: {
+                            type: 'string',
+                            value: null
+                        }
+                    }
+                });
+
+                var obj = new Model({
+                    simple: 'hello'
+                });
+
+                expect(obj).to.be.instanceof(Model);
+
+                expect(obj.get('simple')).to.be.equal('hello');
+
+                expect(obj.set('simple', 'test')).to.be.undefined;
+                expect(obj.get('simple')).to.be.equal('test');
+
+                expect(obj.set('simple')).to.be.undefined;
+                expect(obj.get('simple')).to.be.null;
+
+                done();
+
+            });
+
+            it('should use the defined setter', function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        complex: {
+                            type: 'string',
+                            value: null
+                        }
+                    },
+                    setComplex: function setter(value, defaults) {
+                        
+                        value = require('../').data.setString(value, defaults);
+
+                        if(value !== defaults) {
+                            value = "test-" + value;
+                        }
+
+                        this.set('complex', value, false);
+
+                        /* Wouldn't normally return on a setter, but allow functionality */
+                        return true;
+                    }
+                });
+
+                var obj = new Model({
+                    complex: 'hello'
+                });
+
+                expect(obj).to.be.instanceof(Model);
+
+                expect(obj.get('complex')).to.be.equal('test-hello');
+
+                expect(obj.set('complex', 'test')).to.be.true;
+                expect(obj.get('complex')).to.be.equal('test-test');
+
+                expect(obj.set('complex')).to.be.true;
+                expect(obj.get('complex')).to.be.null;
+
+                done();
+
+            });
+
+        });
+
         describe("Primary keys", function() {
 
             it('should set no primary key value', function(done) {
@@ -537,7 +614,7 @@ describe("Model tests", function() {
                         return this.get("parentId") === 1;
                     },
                     setName: function(name) {
-                        this.set("name", name);
+                        this.set("name", name, false);
                     }
                 });
 
