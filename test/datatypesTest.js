@@ -195,9 +195,10 @@ describe("Executing the datautils", function() {
         expect(DataUtils.setString(2, null)).to.be.eql("2");
         expect(DataUtils.setString(2.345654, null)).to.be.eql("2.345654");
 
-        expect(DataUtils.setString({}, null)).to.be.eql(null);
-        expect(DataUtils.setString([], false)).to.be.eql(false);
-        expect(DataUtils.setString(undefined, null)).to.be.eql(null);
+        expect(DataUtils.setString({}, null)).to.be.null;
+        expect(DataUtils.setString([], false)).to.be.false;
+        expect(DataUtils.setString(undefined, null)).to.be.null;
+        expect(DataUtils.setString(NaN, null)).to.be.null;
 
         done();
 
