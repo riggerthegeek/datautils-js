@@ -227,7 +227,7 @@
 
         <echo message="Publishing a new version of ${package.name}" />
 
-        <input message="What do you want to deploy?" addproperty="npm.deploy" />
+        <input message="What do you want to deploy? [major, minor, path, build or version number]" addproperty="npm.deploy" />
 
         <exec-node-out module="npm" dir="${basedir}" outputproperty="npm.version">
             <arg value="version" />
