@@ -102,7 +102,7 @@
             <arg value="cover" />
             <arg value="${basedir}/node_modules/.bin/_mocha" />
             <arg value="--" />
-            <arg value="-R" />
+            <arg value="--reporter" />
             <arg value="spec" />
         </exec-node>
 
