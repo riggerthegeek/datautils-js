@@ -227,32 +227,16 @@
 
         <echo message="Publishing a new version of ${package.name}" />
 
-        <input message="What do you want to deploy? [major, minor, patch, build or version number]" addproperty="npm.deploy" />
+        <input message="What do you want to deploy?" addproperty="npm.deploy" />
 
-        <exec-node-out module="npm" dir="${basedir}" outputproperty="npm.version">
+        <exec-node module="npm" dir="${basedir}">
             <arg value="version" />
             <arg value="${npm.deploy}" />
-        </exec-node-out>
+        </exec-node>
 
         <exec-node module="git">
             <arg value="push" />
-            <arg value="origin" />
-            <arg value="${npm.version}" />
-        </exec-node>
-
-        <antcall target="build" />
-
-        <echo message="Publish ${package.name}@${npm.version}" />
-
-        <exec-node module="npm">
-            <arg value="publish" />
-            <arg value="${dist.dir}/${package.name}-latest.tgz" />
-        </exec-node>
-
-        <echo message="Pushing ${package.name}@${npm.version} changes" />
-
-        <exec-node module="git">
-            <arg value="push" />
+            <arg value="--tags" />
         </exec-node>
 
     </target>

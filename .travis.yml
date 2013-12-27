@@ -12,3 +12,10 @@ notifications:
     - simon@simonemms.com
     on_success: change
     on_failure: always
+deploy:
+  provider: npm
+  email: simon@simonemms.com
+  api_key:
+    secure: kOVEIHFDGLmA2ZzfJnEjfpwzvdkl+TyriY8UGxfwliriSjRV3w5tjBP2n6tsKh4+lUL+Jdq5ullqa0+noLnKXqk1/gDFZ36vDBPc/YGyTp+9t0xYh3HMFH/jRciXB/EvfGZF0cVejT7q2gEASzjLVR80/rNf2SDUpk5Pds8z2/Y=
+  on:
+    tags: true
