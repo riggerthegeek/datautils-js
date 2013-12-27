@@ -254,7 +254,7 @@ describe("Model tests", function() {
                         }
                     },
                     setComplex: function setter(value, defaults) {
-                        
+
                         value = require('../').data.setString(value, defaults);
 
                         if(value !== defaults) {
@@ -281,6 +281,55 @@ describe("Model tests", function() {
 
                 expect(obj.set('complex')).to.be.true;
                 expect(obj.get('complex')).to.be.null;
+
+                done();
+
+            });
+
+            it("should only set a value if it's an enumerable value", function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        str: {
+                            type: 'enum',
+                            enum: [
+                                "value1", "value2"
+                            ],
+                            value: null
+                        }
+                    }
+                });
+
+                var obj1 = new Model({
+                    str: "value1"
+                });
+
+                expect(obj1.get("str")).to.be.equal("value1");
+                obj1.set("str", "value2");
+                expect(obj1.get("str")).to.be.equal("value2");
+                obj1.set("str", "value3");
+                expect(obj1.get("str")).to.be.null;
+
+                var obj2 = new Model({
+                    str: "value2"
+                });
+
+                expect(obj2.get("str")).to.be.equal("value2");
+                obj2.set("str", "value1");
+                expect(obj2.get("str")).to.be.equal("value1");
+                obj2.set("str", "value3");
+                expect(obj2.get("str")).to.be.null;
+
+                var obj3 = new Model({
+                    str: "value3"
+                });
+
+                expect(obj3.get("str")).to.be.null;
+                obj3.set("str", "value1");
+                expect(obj3.get("str")).to.be.equal("value1");
+                obj3.set("str", "value2");
+                expect(obj3.get("str")).to.be.equal("value2");
 
                 done();
 
