@@ -234,9 +234,15 @@
             <arg value="${npm.deploy}" />
         </exec-node>
 
+        <!-- Push the tag -->
         <exec-node module="git">
             <arg value="push" />
             <arg value="--tags" />
+        </exec-node>
+
+        <!-- Push the change -->
+        <exec-node module="git">
+            <arg value="push" />
         </exec-node>
 
     </target>
