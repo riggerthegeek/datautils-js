@@ -88,6 +88,8 @@ describe("Model tests", function() {
                     string: "some string"
                 });
 
+                expect(obj1.getDefinition("array").getSetting("test")).to.be.undefined;
+
                 expect(obj1).to.be.instanceof(Model);
 
                 expect(obj1.toData()).to.be.eql({
@@ -696,6 +698,38 @@ describe("Model tests", function() {
                 done();
 
             });
+
+        });
+
+        it("should add settings to the definition", function(done) {
+
+            /* Define the model */
+            var Model = model.extend({
+                definition: {
+                    element: {
+                        type: "string",
+                        value: null,
+                        settings: {
+                            setting1: true,
+                            setting2: false,
+                            setting3: "string",
+                            test: 222
+                        }
+                    }
+                }
+            });
+
+            var obj = new Model({
+                element: "value"
+            });
+
+            expect(obj.getDefinition("element").getSetting("setting1")).to.be.equal(true);
+            expect(obj.getDefinition("element").getSetting("setting2")).to.be.equal(false);
+            expect(obj.getDefinition("element").getSetting("setting3")).to.be.equal("string");
+            expect(obj.getDefinition("element").getSetting("test")).to.be.equal(222);
+            expect(obj.getDefinition("element").getSetting("undefined")).to.be.undefined;
+
+            done();
 
         });
 
