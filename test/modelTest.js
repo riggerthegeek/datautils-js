@@ -594,6 +594,44 @@ describe("Model tests", function() {
 
         });
 
+        describe("Added static methods", function() {
+
+            it("should allow adding of a static methods", function(done) {
+
+                /* Define the model */
+                var Model = model.extend({
+                    definition: {
+                        element: {
+                            type: "string",
+                            value: null
+                        },
+                        func: {
+                            type: function() {
+                                return Model.someConstant;
+                            }
+                        }
+                    }
+                }, {
+
+                    someFunction: function() {
+                        return "value";
+                    },
+
+                    someConstant: "constant"
+
+                });
+
+                var obj = new Model();
+
+                expect(obj.get("func")).to.be.equal(Model.someConstant);
+                expect(Model.someFunction()).to.be.equal("value");
+
+                done();
+
+            });
+
+        });
+
         describe("Invalid datatypes", function() {
 
             it('should throw an error when you create model with no type', function(done) {
