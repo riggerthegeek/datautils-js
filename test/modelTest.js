@@ -552,6 +552,48 @@ describe("Model tests", function() {
 
         });
 
+        describe("Function as a datatype", function() {
+
+            var Model;
+
+            beforeEach(function() {
+                /* Define the model */
+                Model = model.extend({
+                    definition: {
+                        func: {
+                            type: function(value, defaults) {
+                                return "value is " + value + ", default is " + defaults;
+                            },
+                            value: "string"
+                        }
+                    }
+                });
+            });
+
+            it("should allow a function as a datatype when no data sent", function(done) {
+
+                var obj = new Model();
+
+                expect(obj.get("func")).to.be.equal("value is undefined, default is string");
+
+                done();
+
+            });
+
+            it("should allow a function as a datatype when no data sent", function(done) {
+
+                var obj = new Model({
+                    func: "some value"
+                });
+
+                expect(obj.get("func")).to.be.equal("value is some value, default is string");
+
+                done();
+
+            });
+
+        });
+
         describe("Invalid datatypes", function() {
 
             it('should throw an error when you create model with no type', function(done) {
