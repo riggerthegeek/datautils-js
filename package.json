@@ -1,7 +1,7 @@
 {
   "name": "datautils",
   "description": "Some JavaScript data utilities",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "./main",
   "dependencies": {
     "underscore": "1.5.2"
