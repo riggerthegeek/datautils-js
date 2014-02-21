@@ -19,11 +19,3 @@ notifications:
     - simon@simonemms.com
     on_success: change
     on_failure: always
-deploy:
-  provider: npm
-  email: simon@simonemms.com
-  api_key:
-    secure: kjApwALU8bY+JX5CHaLKEWIS93Tv+w+7IBU7cTCELGJvdOk9EQKBhVMjhp2AUtHu00fzStQdU8khAt9nUQ/bIsB+cCFIaEsm11hDIwKVU2eu5IHeM5TNtVKoaqQZVhTYEt/jXeX4QIxTORDgPKVsYZBnvWHFT+mxqtZuTdEq5r0=
-  on:
-    tags: true
-    repo: riggerthegeek/datautils-js
