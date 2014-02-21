@@ -39,6 +39,7 @@ This module uses the [Revealing Module Pattern](http://addyosmani.com/resources/
  - [setInstanceOf](#setInstanceOf)
  - [setInt](#setInt)
  - [setObject](#setObject)
+ - [setRegex](#setRegex)
  - [setString](#setString)
 
 ## Model
@@ -150,6 +151,12 @@ ensures that value that is returned it an integer.  If you pass over
 Number(1) or String(3.0), they are returned as Number(1) and Number(3).
 However, if you pass in Number(1.2) or String(2.4), the default value
 will be returned.
+
+<a name="setRegex" />
+### _string_ setRegex(_string|RegExp_ regex, _string_ input, _mixed_ def)
+
+Makes sure that the input matches the given regular expression.  It also
+forces the output to be a string, so be careful.
 
 <a name="setObject" />
 ### _mixed_ setString(_mixed_ input, _mixed_ def)

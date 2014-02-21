@@ -242,4 +242,65 @@ describe("Executing the datautils", function() {
 
     });
 
+    describe("#setRegex", function(done) {
+
+        it("should validate an implied RegExp object", function(done) {
+
+            expect(DataUtils.setRegex(/(TEST)\-(\w+)/i, "test-testington", null)).to.be.equal("test-testington");
+
+            done();
+
+        });
+
+        it("should validate a full RegExp object", function(done) {
+
+            var regex = new RegExp('(test)\\-(\\w+)');
+
+            expect(DataUtils.setRegex(regex, "test-testington", null)).to.be.equal("test-testington");
+
+            done();
+
+        });
+
+        it("should validate against a string", function(done) {
+
+            var regex = '(test)\\-(\\w+)';
+
+            expect(DataUtils.setRegex(regex, "test-testington", null)).to.be.equal("test-testington");
+
+            done();
+
+        });
+
+        it("should return default when it fails to match", function(done) {
+
+            expect(DataUtils.setRegex(/(test)\_(\w+)/, "test-testington", null)).to.be.null;
+
+            done();
+
+        });
+
+        it("should throw an error when neither a RegExp or string is passed", function(done) {
+
+            var fail = false;
+
+            try {
+                DataUtils.setRegex([/(test)\_(\w+)/], 'test-testington');
+            } catch(err) {
+
+                fail = true;
+
+                expect(err).to.be.instanceof(Error);
+                expect(err.message).to.be.equal('SETREGEX_NOT_REGEXP_OR_STRING');
+
+            }
+
+            expect(fail).to.be.true;
+
+            done();
+
+        });
+
+    });
+
 });
