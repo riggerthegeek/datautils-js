@@ -229,18 +229,18 @@
 
         <input message="What do you want to deploy? [major|minor|patch|build|_version_]" addproperty="npm.deploy" />
 
+        <!-- Create the tag -->
+        <exec-node module="npm" dir="${basedir}">
+            <arg value="version" />
+            <arg value="${npm.deploy}" />
+        </exec-node>
+
         <antcall target="build" />
 
         <!-- Publish to NPM -->
         <exec-node module="npm">
             <arg value="publish" />
             <arg value="${dist.dir}/${package.name}-latest.tgz" />
-        </exec-node>
-
-        <!-- Create the tag -->
-        <exec-node module="npm" dir="${basedir}">
-            <arg value="version" />
-            <arg value="${npm.deploy}" />
         </exec-node>
 
         <!-- Push the tag -->
