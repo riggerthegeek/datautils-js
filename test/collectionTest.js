@@ -357,7 +357,7 @@ describe("Collection tests", function() {
 
         describe("by array", function() {
 
-            describe.only("model only", function() {
+            describe("model only", function() {
 
                 it("should remove first element only", function(done) {
 
@@ -636,6 +636,243 @@ describe("Collection tests", function() {
             });
 
             describe("uuid only", function() {
+
+                it("should remove first element only", function(done) {
+
+                    expect(obj.remove([obj.get(0, true)])).to.be.eql([
+                        true
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(2);
+                    expect(obj.get(0)).to.be.instanceof(Model);
+                    expect(obj.get(1)).to.be.instanceof(Model);
+
+                    expect(obj.toJSON()).to.be.eql([{
+                        boolean: true,
+                        date: new Date("2010-02-08"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }, {
+                        boolean: true,
+                        date: new Date("2010-02-09"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }]);
+
+                    done();
+
+                });
+
+                it("should remove middle element only", function(done) {
+
+                    expect(obj.remove([obj.get(1, true)])).to.be.eql([
+                        true
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(2);
+                    expect(obj.get(0)).to.be.instanceof(Model);
+                    expect(obj.get(1)).to.be.instanceof(Model);
+
+                    expect(obj.toJSON()).to.be.eql([{
+                        boolean: true,
+                        date: new Date("2010-02-07"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }, {
+                        boolean: true,
+                        date: new Date("2010-02-09"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }]);
+
+                    done();
+
+                });
+
+                it("should remove last element only", function(done) {
+
+                    expect(obj.remove([obj.get(2, true)])).to.be.eql([
+                        true
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(2);
+                    expect(obj.get(0)).to.be.instanceof(Model);
+                    expect(obj.get(1)).to.be.instanceof(Model);
+
+                    expect(obj.toJSON()).to.be.eql([{
+                        boolean: true,
+                        date: new Date("2010-02-07"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }, {
+                        boolean: true,
+                        date: new Date("2010-02-08"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }]);
+
+                    done();
+
+                });
+
+                it("should remove first and last elements", function(done) {
+
+                    expect(obj.remove([obj.get(0, true), obj.get(2, true)])).to.be.eql([
+                        true,
+                        true
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(1);
+                    expect(obj.get(0)).to.be.instanceof(Model);
+
+                    expect(obj.toJSON()).to.be.eql([{
+                        boolean: true,
+                        date: new Date("2010-02-08"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }]);
+
+                    done();
+
+                });
+
+                it("should remove first and middle elements", function(done) {
+
+                    expect(obj.remove([obj.get(0, true), obj.get(1, true)])).to.be.eql([
+                        true,
+                        true
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(1);
+                    expect(obj.get(0)).to.be.instanceof(Model);
+
+                    expect(obj.toJSON()).to.be.eql([{
+                        boolean: true,
+                        date: new Date("2010-02-09"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }]);
+
+                    done();
+
+                });
+
+                it("should remove second and last elements", function(done) {
+
+                    expect(obj.remove([obj.get(2, true), obj.get(1, true)])).to.be.eql([
+                        true,
+                        true
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(1);
+                    expect(obj.get(0)).to.be.instanceof(Model);
+
+                    expect(obj.toJSON()).to.be.eql([{
+                        boolean: true,
+                        date: new Date("2010-02-07"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }]);
+
+                    done();
+
+                });
+
+                it("should not remove non-existent elements", function(done) {
+
+                    var obj2 = new Collection([{
+                        boolean: "true",
+                        date: "2010-02-07",
+                        float: "2.3",
+                        integer: "2",
+                        string: "string"
+                    }, {
+                        boolean: "true",
+                        date: "2010-02-08",
+                        float: "2.3",
+                        integer: "2",
+                        string: "string"
+                    }]);
+
+                    expect(obj.remove([obj2.get(0, true), obj2.get(1, true)])).to.be.eql([
+                        false,
+                        false
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(3);
+                    expect(obj.get(0)).to.be.instanceof(Model);
+                    expect(obj.get(1)).to.be.instanceof(Model);
+                    expect(obj.get(2)).to.be.instanceof(Model);
+
+                    expect(obj.toJSON()).to.be.eql([{
+                        boolean: true,
+                        date: new Date("2010-02-07"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }, {
+                        boolean: true,
+                        date: new Date("2010-02-08"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }, {
+                        boolean: true,
+                        date: new Date("2010-02-09"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }]);
+
+                    done();
+
+                });
+
+                it("should not remove non-existent elements but remove existing ones", function(done) {
+
+                    var obj2 = new Collection([{
+                        boolean: "true",
+                        date: "2010-02-08",
+                        float: "2.3",
+                        integer: "2",
+                        string: "string"
+                    }]);
+
+                    expect(obj.remove([obj2.get(0, true), obj.get(1, true)])).to.be.eql([
+                        false,
+                        true
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(2);
+                    expect(obj.get(0)).to.be.instanceof(Model);
+                    expect(obj.get(1)).to.be.instanceof(Model);
+
+                    expect(obj.toJSON()).to.be.eql([{
+                        boolean: true,
+                        date: new Date("2010-02-07"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }, {
+                        boolean: true,
+                        date: new Date("2010-02-09"),
+                        float: 2.3,
+                        integer: 2,
+                        string: "string"
+                    }]);
+
+                    done();
+
+                });
 
             });
 
