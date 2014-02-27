@@ -23,6 +23,8 @@ module.exports = {
 
     array: require("./lib/arrayutils"),
 
+    collection: require("./lib/collection"),
+
     data: require("./lib/datatypes"),
 
     model: require("./lib/model"),
