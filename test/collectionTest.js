@@ -305,6 +305,476 @@ describe("Collection tests", function() {
 
     });
 
+    describe("Getting models", function() {
+
+
+
+        var obj;
+
+        beforeEach(function() {
+            obj = new Collection([{
+                boolean: "true",
+                date: "2010-02-07",
+                float: "2.3",
+                integer: "2",
+                string: "string"
+            }, {
+                boolean: "true",
+                date: "2010-02-08",
+                float: "2.3",
+                integer: "2",
+                string: "string"
+            }, {
+                boolean: "true",
+                date: "2010-02-09",
+                float: "2.3",
+                integer: "2",
+                string: "string"
+            }]);
+
+            expect(obj.getCount()).to.be.equal(3);
+            expect(obj.get(0)).to.be.instanceof(Model);
+            expect(obj.get(1)).to.be.instanceof(Model);
+
+            expect(obj.toJSON()).to.be.eql([{
+                boolean: true,
+                date: new Date("2010-02-07"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }, {
+                boolean: true,
+                date: new Date("2010-02-08"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }, {
+                boolean: true,
+                date: new Date("2010-02-09"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }]);
+        });
+
+        describe("by UUID", function() {
+
+            it("should return the model by the UUID", function(done) {
+
+                var keys = obj.getKeys();
+                var models = obj.data;
+
+                expect(obj.get(keys[0])).to.be.equal(models[keys[0]]);
+                expect(obj.get(keys[0], false)).to.be.equal(models[keys[0]]);
+
+                done();
+
+            });
+
+            it("should return the model UUID by the UUID", function(done) {
+
+                var keys = obj.getKeys();
+
+                expect(obj.get(keys[0], true)).to.be.equal(keys[0]);
+
+                done();
+
+            });
+
+            it("should not get non-existent UUID", function(done) {
+
+                expect(obj.get("23f3gg32")).to.be.null;
+                expect(obj.get("23f3gg32", true)).to.be.null;
+
+                done();
+
+            });
+
+        });
+
+        describe("by integer", function() {
+
+            it("should return the model by the integer", function(done) {
+
+                var keys = obj.getKeys();
+                var models = obj.data;
+
+                expect(obj.get(0)).to.be.equal(models[keys[0]]);
+                expect(obj.get(0, false)).to.be.equal(models[keys[0]]);
+
+                done();
+
+            });
+
+            it("should return the UUID by the integer", function(done) {
+
+                var keys = obj.getKeys();
+
+                expect(obj.get(0, true)).to.be.equal(keys[0]);
+
+                done();
+
+            });
+
+            it("should not get non-existent integer", function(done) {
+
+                expect(obj.get("23")).to.be.null;
+                expect(obj.get("23", false)).to.be.null;
+                expect(obj.get(23)).to.be.null;
+                expect(obj.get(23, true)).to.be.null;
+
+                done();
+
+            });
+
+        });
+
+        describe("by model", function() {
+
+            it("should return the model by the model", function(done) {
+
+                var keys = obj.getKeys();
+                var models = obj.data;
+
+                expect(obj.get(models[keys[0]])).to.be.equal(models[keys[0]]);
+                expect(obj.get(models[keys[0]], false)).to.be.equal(models[keys[0]]);
+
+                done();
+
+            });
+
+            it("should return the UUID by the model", function(done) {
+
+                var keys = obj.getKeys();
+                var models = obj.data;
+
+                expect(obj.get(models[keys[0]], true)).to.be.equal(keys[0]);
+
+                done();
+
+            });
+
+            it("should not get non-existent model", function(done) {
+
+                var obj2 = new Collection([{
+                    boolean: "true",
+                    date: "2010-02-07",
+                    float: "2.3",
+                    integer: "2",
+                    string: "string"
+                }]);
+
+                expect(obj2.get(0)).to.be.instanceof(Model);
+
+                expect(obj.get(obj2.get(0))).to.be.null;
+                expect(obj.get(obj2.get(0), false)).to.be.null;
+                expect(obj.get(obj2.get(0))).to.be.null;
+                expect(obj.get(obj2.get(0), true)).to.be.null;
+
+                done();
+
+            });
+
+        });
+
+        describe("by array", function() {
+
+            describe("by UUID", function() {
+
+                it("should return the model by the UUID", function(done) {
+
+                    var keys = obj.getKeys();
+                    var models = obj.data;
+
+                    expect(obj.get([
+                        keys[0],
+                        keys[2]
+                    ])).to.be.eql([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ]);
+
+                    expect(obj.get([
+                        keys[0],
+                        keys[2]
+                    ], false)).to.be.eql([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ]);
+
+                    done();
+
+                });
+
+                it("should return the UUID by the UUID", function(done) {
+
+                    var keys = obj.getKeys();
+
+                    expect(obj.get([
+                        keys[0],
+                        keys[2]
+                    ], true)).to.be.eql([
+                        keys[0],
+                        keys[2]
+                    ]);
+
+                    done();
+
+                });
+
+                it("should return existent stuff and not the non-existent stuff", function(done) {
+
+                    var keys = obj.getKeys();
+                    var models = obj.data;
+
+                    expect(obj.get([
+                        keys[0],
+                        keys[3]
+                    ])).to.be.eql([
+                        models[keys[0]],
+                        null
+                    ]);
+
+                    expect(obj.get([
+                        keys[3],
+                        keys[2]
+                    ], false)).to.be.eql([
+                        null,
+                        models[keys[2]]
+                    ]);
+
+                    expect(obj.get([
+                        keys[3],
+                        keys[23]
+                    ], false)).to.be.eql([
+                        null,
+                        null
+                    ]);
+
+                    expect(obj.get([
+                        keys[23],
+                        keys[2]
+                    ], true)).to.be.eql([
+                        null,
+                        keys[2]
+                    ]);
+
+                    done();
+
+                });
+
+            });
+
+            describe("by integer", function() {
+
+                it("should return the model by the integer", function(done) {
+
+                    var keys = obj.getKeys();
+                    var models = obj.data;
+
+                    expect(obj.get([
+                        0,
+                        2
+                    ])).to.be.eql([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ]);
+
+                    expect(obj.get([
+                        0,
+                        2
+                    ], false)).to.be.eql([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ]);
+
+                    done();
+
+                });
+
+                it("should return the UUID by the integer", function(done) {
+
+                    var keys = obj.getKeys();
+
+                    expect(obj.get([
+                        0,
+                        2
+                    ], true)).to.be.eql([
+                        keys[0],
+                        keys[2]
+                    ]);
+
+                    done();
+
+                });
+
+                it("should return existent stuff and not the non-existent stuff", function(done) {
+
+                    var keys = obj.getKeys();
+                    var models = obj.data;
+
+                    expect(obj.get([
+                        0,
+                        3
+                    ])).to.be.eql([
+                        models[keys[0]],
+                        null
+                    ]);
+
+                    expect(obj.get([
+                        3,
+                        2
+                    ], false)).to.be.eql([
+                        null,
+                        models[keys[2]]
+                    ]);
+
+                    expect(obj.get([
+                        3,
+                        23
+                    ], false)).to.be.eql([
+                        null,
+                        null
+                    ]);
+
+                    expect(obj.get([
+                        23,
+                        2
+                    ], true)).to.be.eql([
+                        null,
+                        keys[2]
+                    ]);
+
+                    done();
+
+                });
+
+            });
+
+            describe("by model", function() {
+
+                it("should return the model by the integer", function(done) {
+
+                    var keys = obj.getKeys();
+                    var models = obj.data;
+
+                    expect(obj.get([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ])).to.be.eql([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ]);
+
+                    expect(obj.get([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ], false)).to.be.eql([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ]);
+
+                    done();
+
+                });
+
+                it("should return the UUID by the integer", function(done) {
+
+                    var keys = obj.getKeys();
+                    var models = obj.data;
+
+                    expect(obj.get([
+                        models[keys[0]],
+                        models[keys[2]]
+                    ], true)).to.be.eql([
+                        keys[0],
+                        keys[2]
+                    ]);
+
+                    done();
+
+                });
+
+                it("should return existent stuff and not the non-existent stuff", function(done) {
+
+                    var keys = obj.getKeys();
+                    var models = obj.data;
+
+                    expect(obj.get([
+                        models[keys[0]],
+                        models[keys[3]]
+                    ])).to.be.eql([
+                        models[keys[0]],
+                        null
+                    ]);
+
+                    expect(obj.get([
+                        models[keys[3]],
+                        models[keys[2]]
+                    ], false)).to.be.eql([
+                        null,
+                        models[keys[2]]
+                    ]);
+
+                    expect(obj.get([
+                        models[keys[3]],
+                        models[keys[23]]
+                    ], false)).to.be.eql([
+                        null,
+                        null
+                    ]);
+
+                    expect(obj.get([
+                        models[keys[23]],
+                        models[keys[2]]
+                    ], true)).to.be.eql([
+                        null,
+                        keys[2]
+                    ]);
+
+                    done();
+
+                });
+
+            });
+
+            describe("mixed", function() {
+
+                it("should get one of each and show the model", function(done) {
+
+                    var keys = obj.getKeys();
+                    var models = obj.data;
+
+                    expect(obj.get([
+                        models[keys[0]],
+                        keys[1],
+                        2
+                    ])).to.be.eql([
+                        models[keys[0]],
+                        models[keys[1]],
+                        models[keys[2]]
+                    ]);
+
+                    expect(obj.get([
+                        models[keys[0]],
+                        keys[1],
+                        2
+                    ], false)).to.be.eql([
+                        models[keys[0]],
+                        models[keys[1]],
+                        models[keys[2]]
+                    ]);
+
+                    done();
+
+                });
+
+            });
+
+        });
+
+    });
+
     describe("Removing models", function() {
 
         var obj;
