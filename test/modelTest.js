@@ -1044,6 +1044,8 @@ describe("Model tests", function() {
                         }]
                     });
 
+                    expect(err.getStack()).to.be.a("string").to.be.equal(err.stack);
+
                 }
 
                 expect(fail).to.be.true;
