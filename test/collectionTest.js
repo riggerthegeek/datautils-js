@@ -1096,6 +1096,28 @@ describe("Collection tests", function() {
 
             describe("mixed", function() {
 
+                it("should remove a UUID, integer and model in an array", function(done) {
+
+                    var arr = [
+                        0,
+                        obj.get(1, true),
+                        obj.get(2)
+                    ];
+
+                    expect(obj.remove(arr)).to.be.eql([
+                        true,
+                        true,
+                        true
+                    ]);
+
+                    expect(obj.getCount()).to.be.equal(0);
+
+                    expect(obj.toJSON()).to.be.eql([]);
+
+                    done();
+
+                });
+
             });
 
         });
