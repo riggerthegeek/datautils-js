@@ -303,11 +303,104 @@ describe("Collection tests", function() {
 
         });
 
+        describe("Each", function() {
+
+            var obj;
+
+            beforeEach(function() {
+                obj = new Collection([{
+                    boolean: "true",
+                    date: "2010-02-07",
+                    float: "2.3",
+                    integer: "2",
+                    string: "string"
+                }, {
+                    boolean: "true",
+                    date: "2010-02-08",
+                    float: "2.3",
+                    integer: "2",
+                    string: "string"
+                }, {
+                    boolean: "true",
+                    date: "2010-02-09",
+                    float: "2.3",
+                    integer: "2",
+                    string: "string"
+                }]);
+
+                expect(obj.getCount()).to.be.equal(3);
+                expect(obj.get(0)).to.be.instanceof(Model);
+                expect(obj.get(1)).to.be.instanceof(Model);
+
+                expect(obj.toJSON()).to.be.eql([{
+                    boolean: true,
+                    date: new Date("2010-02-07"),
+                    float: 2.3,
+                    integer: 2,
+                    string: "string"
+                }, {
+                    boolean: true,
+                    date: new Date("2010-02-08"),
+                    float: 2.3,
+                    integer: 2,
+                    string: "string"
+                }, {
+                    boolean: true,
+                    date: new Date("2010-02-09"),
+                    float: 2.3,
+                    integer: 2,
+                    string: "string"
+                }]);
+            });
+
+            it("should allow an each loop on a collection of models", function(done) {
+
+                var i = 0;
+
+                obj.each(function(model, id) {
+
+                    expect(model).to.be.equal(obj.get(i));
+                    expect(id).to.be.equal(obj.get(i, true));
+
+                    i++;
+
+                });
+
+                expect(i).to.be.equal(3);
+
+                done();
+
+            });
+
+            it("should allow a loop on an empty collection", function(done) {
+
+                expect(obj.getCount()).to.be.equal(3);
+
+                expect(obj.reset()).to.be.true;
+
+                expect(obj.getCount()).to.be.equal(0);
+
+                var i = 0;
+                obj.each(function(model, id) {
+
+                    /* Don't want it to ever get here */
+                    throw new Error("This should not happen");
+
+                    i++;
+
+                });
+
+                expect(i).to.be.equal(0);
+
+                done();
+
+            });
+
+        });
+
     });
 
     describe("Getting models", function() {
-
-
 
         var obj;
 
