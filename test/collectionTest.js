@@ -266,6 +266,174 @@ describe("Collection tests", function() {
 
         });
 
+        it("should allow an instance of the model to be added", function(done) {
+
+            var obj = new Collection();
+
+            expect(obj.getCount()).to.be.equal(0);
+
+            obj.add(new Model({
+                boolean: "true",
+                date: "2010-02-07",
+                float: "2.3",
+                integer: "2",
+                string: "string"
+            }));
+
+            expect(obj.getCount()).to.be.equal(1);
+            expect(obj.get(0)).to.be.instanceof(Model);
+
+            expect(obj.toJSON()).to.be.eql([{
+                boolean: true,
+                date: new Date("2010-02-07"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }]);
+
+            done();
+
+        });
+
+        it("should allow an array of instances of the model to be added", function(done) {
+
+            var obj = new Collection();
+
+            expect(obj.getCount()).to.be.equal(0);
+
+            obj.add([
+                new Model({
+                    boolean: "true",
+                    date: "2010-02-07",
+                    float: "2.3",
+                    integer: "2",
+                    string: "string"
+                }),
+                new Model({
+                    boolean: true,
+                    date: new Date("2010-02-08"),
+                    float: 2.3,
+                    integer: 2,
+                    string: "string"
+                }),
+                new Model({
+                    boolean: true,
+                    date: new Date("2010-02-09"),
+                    float: 2.3,
+                    integer: 2,
+                    string: "string"
+                })
+            ]);
+
+            expect(obj.getCount()).to.be.equal(3);
+            expect(obj.get(0)).to.be.instanceof(Model);
+            expect(obj.get(1)).to.be.instanceof(Model);
+            expect(obj.get(2)).to.be.instanceof(Model);
+
+            expect(obj.toJSON()).to.be.eql([{
+                boolean: true,
+                date: new Date("2010-02-07"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }, {
+                boolean: true,
+                date: new Date("2010-02-08"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }, {
+                boolean: true,
+                date: new Date("2010-02-09"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }]);
+
+            done();
+
+        });
+
+        it("should allow an instance of the model to be added to the constructor", function(done) {
+
+            var obj = new Collection(new Model({
+                boolean: "true",
+                date: "2010-02-07",
+                float: "2.3",
+                integer: "2",
+                string: "string"
+            }));
+
+            expect(obj.getCount()).to.be.equal(1);
+            expect(obj.get(0)).to.be.instanceof(Model);
+
+            expect(obj.toJSON()).to.be.eql([{
+                boolean: true,
+                date: new Date("2010-02-07"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }]);
+
+            done();
+
+        });
+
+        it("should allow an array of instances of the model to be added to the constructor", function(done) {
+
+            var obj = new Collection([
+                new Model({
+                    boolean: "true",
+                    date: "2010-02-07",
+                    float: "2.3",
+                    integer: "2",
+                    string: "string"
+                }),
+                new Model({
+                    boolean: true,
+                    date: new Date("2010-02-08"),
+                    float: 2.3,
+                    integer: 2,
+                    string: "string"
+                }),
+                new Model({
+                    boolean: true,
+                    date: new Date("2010-02-09"),
+                    float: 2.3,
+                    integer: 2,
+                    string: "string"
+                })
+            ]);
+
+            expect(obj.getCount()).to.be.equal(3);
+            expect(obj.get(0)).to.be.instanceof(Model);
+            expect(obj.get(1)).to.be.instanceof(Model);
+            expect(obj.get(2)).to.be.instanceof(Model);
+
+            expect(obj.toJSON()).to.be.eql([{
+                boolean: true,
+                date: new Date("2010-02-07"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }, {
+                boolean: true,
+                date: new Date("2010-02-08"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }, {
+                boolean: true,
+                date: new Date("2010-02-09"),
+                float: 2.3,
+                integer: 2,
+                string: "string"
+            }]);
+
+            done();
+
+        });
+
     });
 
     describe("Collection management", function() {
