@@ -2137,4 +2137,67 @@ describe("Model tests", function() {
 
     });
 
+    describe("Setting models as values", function() {
+
+        var Model;
+        var Model2;
+
+        before(function() {
+
+            /* Define the models */
+            Model2 = model.extend({
+                definition: {
+                    integer: {
+                        type: "integer",
+                        value: 0
+                    },
+                    string: {
+                        type: "string"
+                    }
+                }
+            });
+
+            Model = model.extend({
+                definition: {
+                    string: {
+                        type: "string",
+                        value: null
+                    },
+                    model: {
+                        type: "object"
+                    }
+                },
+                setModel: function(input, def) {
+                    var objInput = new Model2(input);
+
+                    if(objInput.isSet()) {
+                        this.set("model", objInput, false);
+                    }
+                }
+            });
+
+        });
+
+        it("should set a new model as a value", function(done) {
+
+            var obj = new Model({
+                model: {
+                    integer: "2"
+                }
+            });
+
+            expect(obj.toObject()).to.be.eql({
+                string: null,
+                model: {
+                    integer: 2,
+                    string: null
+                }
+            });
+
+            done();
+
+        });
+
+    });
+
 });
