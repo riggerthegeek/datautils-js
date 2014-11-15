@@ -10,7 +10,7 @@
   "devDependencies": {
     "chai": "*",
     "istanbul": "*",
-    "jshint": "*",
+    "jshint": "2.4.3",
     "mocha": "*"
   },
   "author": "Simon Emms <simon@simonemms.com>",
