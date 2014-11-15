@@ -7,13 +7,7 @@ node_js:
 matrix:
   fast_finish: true
   allow_failures:
-  - node_js: '0.11'
+  - node_js: '0.8'
   - node_js: '0.6'
 script:
 - ant -f build.xml ci
-notifications:
-  email:
-    recipients:
-    - simon@simonemms.com
-    on_success: change
-    on_failure: always
