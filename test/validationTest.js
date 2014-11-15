@@ -125,20 +125,22 @@ describe("Validation tests", function() {
             expect(validation.required('false')).to.be.true;
             expect(validation.required(0)).to.be.true;
             expect(validation.required(false)).to.be.true;
+            expect(validation.required(["val"])).to.be.true;
 
             done();
 
         });
 
-        it('should throw an error when empty', function(done) {
+        it.only('should throw an error when empty', function(done) {
 
             var arr = [
                 null,
                 '',
-                undefined
+                undefined,
+                []
             ];
 
-            expect(arr).to.have.length(3);
+            expect(arr).to.have.length(4);
 
             arr.forEach(function(value) {
 
