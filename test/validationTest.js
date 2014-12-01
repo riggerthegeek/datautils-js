@@ -131,7 +131,7 @@ describe("Validation tests", function() {
 
         });
 
-        it.only('should throw an error when empty', function(done) {
+        it('should throw an error when empty', function(done) {
 
             var arr = [
                 null,
@@ -175,6 +175,9 @@ describe("Validation tests", function() {
             expect(validation.minLength('string', 6)).to.be.true;
             expect(validation.minLength('', 0)).to.be.true;
             expect(validation.minLength('nSP"%yB9f{$a-.<b<tgXQ3', 21)).to.be.true;
+            expect(validation.minLength('nSP"%yB9f{$a-.<b<tgXQ3', 21)).to.be.true;
+            expect(validation.minLength([2,3], 2)).to.be.true;
+            expect(validation.minLength({g:2,r:3}, 2)).to.be.true;
 
             done();
 
@@ -213,6 +216,52 @@ describe("Validation tests", function() {
             }
 
             done();
+
+        });
+
+        it("should throw error when array under length", function () {
+
+            var value = [2,3,4];
+
+            var fail = false;
+
+            try {
+                validation.minLength(value, 4);
+            } catch(err) {
+                fail = true;
+
+                expect(err).to.be.instanceof(Error);
+                expect(err.message).to.be.equal('VALUE_LESS_THAN_MIN_LENGTH');
+                expect(err.value).to.be.equal(value);
+                expect(err.params).to.be.eql([
+                    Number(4)
+                ]);
+            }
+
+            expect(fail).to.be.true;
+
+        });
+
+        it("should throw error when object under length", function () {
+
+            var value = {d:2,f:3};
+
+            var fail = false;
+
+            try {
+                validation.minLength(value, 4);
+            } catch(err) {
+                fail = true;
+
+                expect(err).to.be.instanceof(Error);
+                expect(err.message).to.be.equal('VALUE_LESS_THAN_MIN_LENGTH');
+                expect(err.value).to.be.equal(value);
+                expect(err.params).to.be.eql([
+                    Number(4)
+                ]);
+            }
+
+            expect(fail).to.be.true;
 
         });
 
@@ -303,13 +352,10 @@ describe("Validation tests", function() {
                 true,
                 false,
                 2,
-                {},
-                [],
-                undefined,
-                new String('test@test.com')
+                undefined
             ];
 
-            expect(arr).to.have.length(8);
+            expect(arr).to.have.length(5);
 
             arr.forEach(function(value) {
 
@@ -476,13 +522,10 @@ describe("Validation tests", function() {
                 true,
                 false,
                 2,
-                {},
-                [],
-                undefined,
-                new String('test@test.com')
+                undefined
             ];
 
-            expect(arr).to.have.length(8);
+            //expect(arr).to.have.length(8);
 
             arr.forEach(function(value) {
 
@@ -653,13 +696,10 @@ describe("Validation tests", function() {
                 true,
                 false,
                 2,
-                {},
-                [],
-                undefined,
-                new String('test@test.com')
+                undefined
             ];
 
-            expect(arr).to.have.length(8);
+            expect(arr).to.have.length(5);
 
             arr.forEach(function(value) {
 
@@ -943,13 +983,10 @@ describe("Validation tests", function() {
                 true,
                 false,
                 2,
-                {},
-                [],
-                undefined,
-                new String('test@test.com')
+                undefined
             ];
 
-            expect(arr).to.have.length(8);
+            expect(arr).to.have.length(5);
 
             arr.forEach(function(value) {
 
