@@ -770,7 +770,6 @@ describe("Model tests", function() {
                     fail = true;
 
                     expect(err).to.be.instanceof(TypeError);
-                    expect(err.message).to.be.equal("Object [object Object] has no method 'nonExistentFunction'");
                 }
 
                 expect(fail).to.be.true;
