@@ -19,4 +19,4 @@ deploy:
     tags: true
     repo: riggerthegeek/datautils-js
   api_key:
-    secure: fcJapEg8eOoDUF4JLyx0ScRKGwx8A2AXs/JfkNItA7qffBVk5vHpIc3D8BZfK3i/OyA1c2ECIJP2vJ5Ku7zwtBEd8bESKNn3KUADC7amuMn0/DT4XWZvt9aFjfhvktPGJQRKBUbAXV3jccaLiFPAE5RdYZDDjw2CDDXyKaCBWhw=
+    secure: B3ukXkRqP8vutagGeype6j1HlGUhYiaJGwsMBhd5D8ywbbCa/0J9eRJdUTm/BQaoENdjjtGDE1P6ex66e1/FSW9i15I/gFBdN6ZTLCshGZevrOMQ0ie5WFsBnSRReD/ZKevbX0w2tvqFsOtPKq0kGqgyRx7TjhGp3sinv23QsDI=
