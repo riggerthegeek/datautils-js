@@ -104,7 +104,11 @@ describe("datatypes test", function () {
 
         it('should correctly handle a BST setDate', function () {
 
-            expect($datatypes.setDate('1987-07-03', null)).to.be.instanceof(Date).to.be.eql(new Date(1987, 6, 3, 1));
+            var date = $datatypes.setDate('1987-07-03', null);
+
+            expect(date).to.be.instanceof(Date);
+
+            expect(date.getTime()).to.be.equal(552268800000);
 
         });
 
