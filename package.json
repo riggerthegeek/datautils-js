@@ -4,8 +4,8 @@
   "version": "1.1.6",
   "main": "./main",
   "dependencies": {
-    "node-uuid": "1.4.1",
-    "underscore": "1.5.2"
+    "lodash": "~3.9.3",
+    "moment": "~2.10.3"
   },
   "devDependencies": {
     "chai": "*",
@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/riggerthegeek/datautils-js/issues"
   },
-  "licence": "GPL-3.0",
+  "licence": "MIT",
   "scripts": {
     "test": "jshint ./ && mocha test --colors --reporter spec --recursive"
   },

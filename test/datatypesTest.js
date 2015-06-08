@@ -11,296 +11,269 @@
  */
 var expect = require("chai").expect;
 
-var DataUtils = require("../").data;
+var $datatypes = require("../");
 
-describe("Executing the datautils", function() {
 
-    it("should correctly handle the setArray", function(done) {
+describe('#setArray', function () {
+
+    it('should correctly handle the setArray', function () {
 
         /* Array */
-        expect(DataUtils.setArray([], null)).to.be.eql([]);
-        expect(DataUtils.setArray(["str"], null)).to.be.eql(["str"]);
-        expect(DataUtils.setArray(["str", true, {}, []], null)).to.be.eql(["str", true, {}, []]);
+        expect($datatypes.setArray([], null)).to.be.eql([]);
+        expect($datatypes.setArray(['str'], null)).to.be.eql(['str']);
+        expect($datatypes.setArray(['str', true, {}, []], null)).to.be.eql(['str', true, {}, []]);
 
         /* Non-array */
-        expect(DataUtils.setArray(null, "hello")).to.be.equal("hello");
-        expect(DataUtils.setArray(undefined, "nothing")).to.be.equal("nothing");
-        expect(DataUtils.setArray(true, null)).to.be.equal(null);
-        expect(DataUtils.setArray(false, null)).to.be.equal(null);
-        expect(DataUtils.setArray({}, null)).to.be.equal(null);
-        expect(DataUtils.setArray(new Date(), null)).to.be.equal(null);
-
-        done();
+        expect($datatypes.setArray(null, 'hello')).to.be.equal('hello');
+        expect($datatypes.setArray(undefined, 'nothing')).to.be.equal('nothing');
+        expect($datatypes.setArray(true, null)).to.be.equal(null);
+        expect($datatypes.setArray(false, null)).to.be.equal(null);
+        expect($datatypes.setArray({}, null)).to.be.equal(null);
+        expect($datatypes.setArray(new Date(), null)).to.be.equal(null);
 
     });
 
-    it("should correctly handle the setBool", function(done) {
+});
+
+describe('#setBool', function () {
+
+    it('should correctly handle the setBool', function () {
 
         /* Boolean */
-        expect(DataUtils.setBool(true, false)).to.be.eql(true);
-        expect(DataUtils.setBool(false, true)).to.be.eql(false);
+        expect($datatypes.setBool(true, false)).to.be.eql(true);
+        expect($datatypes.setBool(false, true)).to.be.eql(false);
 
         /* String */
-        expect(DataUtils.setBool("1", null)).to.be.eql(true);
-        expect(DataUtils.setBool("true", null)).to.be.eql(true);
-        expect(DataUtils.setBool("TRUE", null)).to.be.eql(true);
-        expect(DataUtils.setBool("t", null)).to.be.eql(true);
-        expect(DataUtils.setBool("T", null)).to.be.eql(true);
-        expect(DataUtils.setBool("y", null)).to.be.eql(true);
-        expect(DataUtils.setBool("Y", null)).to.be.eql(true);
-        expect(DataUtils.setBool("yes", null)).to.be.eql(true);
-        expect(DataUtils.setBool("YES", null)).to.be.eql(true);
-        expect(DataUtils.setBool("0", null)).to.be.eql(false);
-        expect(DataUtils.setBool("false", null)).to.be.eql(false);
-        expect(DataUtils.setBool("FALSE", null)).to.be.eql(false);
-        expect(DataUtils.setBool("f", null)).to.be.eql(false);
-        expect(DataUtils.setBool("F", null)).to.be.eql(false);
-        expect(DataUtils.setBool("n", null)).to.be.eql(false);
-        expect(DataUtils.setBool("N", null)).to.be.eql(false);
-        expect(DataUtils.setBool("no", null)).to.be.eql(false);
-        expect(DataUtils.setBool("NO", null)).to.be.eql(false);
+        expect($datatypes.setBool('1', null)).to.be.eql(true);
+        expect($datatypes.setBool('true', null)).to.be.eql(true);
+        expect($datatypes.setBool('TRUE', null)).to.be.eql(true);
+        expect($datatypes.setBool('t', null)).to.be.eql(true);
+        expect($datatypes.setBool('T', null)).to.be.eql(true);
+        expect($datatypes.setBool('y', null)).to.be.eql(true);
+        expect($datatypes.setBool('Y', null)).to.be.eql(true);
+        expect($datatypes.setBool('yes', null)).to.be.eql(true);
+        expect($datatypes.setBool('YES', null)).to.be.eql(true);
+        expect($datatypes.setBool('0', null)).to.be.eql(false);
+        expect($datatypes.setBool('false', null)).to.be.eql(false);
+        expect($datatypes.setBool('FALSE', null)).to.be.eql(false);
+        expect($datatypes.setBool('f', null)).to.be.eql(false);
+        expect($datatypes.setBool('F', null)).to.be.eql(false);
+        expect($datatypes.setBool('n', null)).to.be.eql(false);
+        expect($datatypes.setBool('N', null)).to.be.eql(false);
+        expect($datatypes.setBool('no', null)).to.be.eql(false);
+        expect($datatypes.setBool('NO', null)).to.be.eql(false);
 
         /* Number */
-        expect(DataUtils.setBool(1, null)).to.be.eql(true);
-        expect(DataUtils.setBool(0, null)).to.be.eql(false);
+        expect($datatypes.setBool(1, null)).to.be.eql(true);
+        expect($datatypes.setBool(0, null)).to.be.eql(false);
 
         /* Fails */
-        expect(DataUtils.setBool("jawohl", null)).to.be.eql(null);
-        expect(DataUtils.setBool("naynaythricenay", null)).to.be.eql(null);
-        expect(DataUtils.setBool({}, null)).to.be.eql(null);
-        expect(DataUtils.setBool([], null)).to.be.eql(null);
-        expect(DataUtils.setBool(null, false)).to.be.eql(false);
-        expect(DataUtils.setBool(undefined, null)).to.be.eql(null);
-
-        done();
+        expect($datatypes.setBool('jawohl', null)).to.be.eql(null);
+        expect($datatypes.setBool('naynaythricenay', null)).to.be.eql(null);
+        expect($datatypes.setBool({}, null)).to.be.eql(null);
+        expect($datatypes.setBool([], null)).to.be.eql(null);
+        expect($datatypes.setBool(null, false)).to.be.eql(false);
+        expect($datatypes.setBool(undefined, null)).to.be.eql(null);
 
     });
 
-    it("should correctly handle the setDate", function(done) {
+});
+
+describe('#setDate', function () {
+
+    it('should correctly handle the setDate', function () {
 
         /* This weird date execution stops it doing the milliseconds */
         var objNow = new Date(String(new Date()));
 
         /* Date object */
-        expect(DataUtils.setDate(objNow, null)).to.be.instanceof(Date).to.be.eql(objNow);
+        expect($datatypes.setDate(objNow, null)).to.be.instanceof(Date).to.be.eql(objNow);
 
         /* YYYY-MM-DD */
-        expect(DataUtils.setDate("2013-02-07", null)).to.be.instanceof(Date).to.be.eql(new Date("2013-02-07"));
-        expect(DataUtils.setDate("2013-02-07 14:15:16", null)).to.be.instanceof(Date).to.be.eql(new Date("2013-02-07 14:15:16"));
+        expect($datatypes.setDate('2013-02-07', null)).to.be.instanceof(Date).to.be.eql(new Date(2013, 1, 7));
+        expect($datatypes.setDate('2013-02-07 14:15:16', null)).to.be.instanceof(Date).to.be.eql(new Date(2013, 1, 7, 14, 15, 16));
 
         /* ISO8601 */
-        expect(DataUtils.setDate(String(objNow), null)).to.be.instanceof(Date).to.be.eql(objNow);
+        expect($datatypes.setDate(objNow.toISOString(), null)).to.be.instanceof(Date).to.be.eql(objNow);
 
         /* Fail */
-        expect(DataUtils.setDate("Hecky thump", null)).to.be.eql(null);
-        expect(DataUtils.setDate(false, null)).to.be.eql(null);
-        expect(DataUtils.setDate(null, true)).to.be.eql(true);
-        expect(DataUtils.setDate(undefined, null)).to.be.eql(null);
-        expect(DataUtils.setDate([], null)).to.be.eql(null);
-        expect(DataUtils.setDate({}, objNow)).to.be.instanceof(Date).to.be.eql(objNow);
-
-        done();
-
-    });
-
-    it("should correctly handle the setFloat", function(done) {
-
-        /* Int */
-        expect(DataUtils.setFloat(0, null)).to.be.eql(0);
-        expect(DataUtils.setFloat(2, null)).to.be.eql(2);
-        expect(DataUtils.setFloat(12345678901234567890, null)).to.be.eql(12345678901234567890);
-        expect(DataUtils.setFloat(-27, null)).to.be.eql(-27);
-        expect(DataUtils.setFloat(+27, null)).to.be.eql(+27);
-        expect(DataUtils.setFloat(-12345678901234567890, null)).to.be.eql(-12345678901234567890);
-        expect(DataUtils.setFloat(0.25, null)).to.be.eql(0.25);
-        expect(DataUtils.setFloat(2.5, null)).to.be.eql(2.5);
-        expect(DataUtils.setFloat(12345678901234567890.56789, null)).to.be.eql(12345678901234567890.56789);
-        expect(DataUtils.setFloat(-27.2, null)).to.be.eql(-27.2);
-        expect(DataUtils.setFloat(+27.0, null)).to.be.eql(+27.0);
-        expect(DataUtils.setFloat(-12345678901234567890.8045, null)).to.be.eql(-12345678901234567890.8045);
-
-        /* String */
-        expect(DataUtils.setFloat("0", null)).to.be.eql(0);
-        expect(DataUtils.setFloat("2", null)).to.be.eql(2);
-        expect(DataUtils.setFloat("12345678901234567890", null)).to.be.eql(12345678901234567890);
-        expect(DataUtils.setFloat("-27", null)).to.be.eql(-27);
-        expect(DataUtils.setFloat("+27", null)).to.be.eql(+27);
-        expect(DataUtils.setFloat("-12345678901234567890", null)).to.be.eql(-12345678901234567890);
-        expect(DataUtils.setFloat("0.5", null)).to.be.eql(0.5);
-        expect(DataUtils.setFloat("2.25", null)).to.be.eql(2.25);
-        expect(DataUtils.setFloat("12345678901234567890.456789", null)).to.be.eql(12345678901234567890.456789);
-        expect(DataUtils.setFloat("-27.4", null)).to.be.eql(-27.4);
-        expect(DataUtils.setFloat("+27.888", null)).to.be.eql(+27.888);
-        expect(DataUtils.setFloat("-12345678901234567890.456789", null)).to.be.eql(-12345678901234567890.456789);
-
-        /* Fail */
-        expect(DataUtils.setFloat("Here\"s some - lovely string", null)).to.be.eql(null);
-        expect(DataUtils.setFloat({}, null)).to.be.eql(null);
-        expect(DataUtils.setFloat([], false)).to.be.eql(false);
-        expect(DataUtils.setFloat(undefined, null)).to.be.eql(null);
-
-        done();
-
-    });
-
-    it("should correctly handle the setFunction", function(done) {
-
-        /* Pass a function over */
-        expect(DataUtils.setFunction(function() { }, null)).to.be.a("function");
-
-        /* Pass a non-function over */
-        expect(DataUtils.setFunction("Here\"s some - lovely string", null)).to.be.eql(null);
-        expect(DataUtils.setFunction({}, null)).to.be.eql(null);
-        expect(DataUtils.setFunction([], false)).to.be.eql(false);
-        expect(DataUtils.setFunction(undefined, null)).to.be.eql(null);
-
-        done();
-
-    });
-
-    it("should correctly handle the setInt", function(done) {
-
-        /* Int */
-        expect(DataUtils.setInt(0, null)).to.be.eql(0);
-        expect(DataUtils.setInt(2, null)).to.be.eql(2);
-        expect(DataUtils.setInt(12345678901234567890, null)).to.be.eql(12345678901234567890);
-        expect(DataUtils.setInt(-27, null)).to.be.eql(-27);
-        expect(DataUtils.setInt(+27, null)).to.be.eql(+27);
-        expect(DataUtils.setInt(-12345678901234567890, null)).to.be.eql(-12345678901234567890);
-
-        /* String */
-        expect(DataUtils.setInt("0", null)).to.be.eql(0);
-        expect(DataUtils.setInt("2", null)).to.be.eql(2);
-        expect(DataUtils.setInt("12345678901234567890", null)).to.be.eql(12345678901234567890);
-        expect(DataUtils.setInt("-27", null)).to.be.eql(-27);
-        expect(DataUtils.setInt("+27", null)).to.be.eql(+27);
-        expect(DataUtils.setInt("-12345678901234567890", null)).to.be.eql(-12345678901234567890);
-
-        /* Fail */
-        expect(DataUtils.setInt("Here\"s some - lovely string", null)).to.be.eql(null);
-        expect(DataUtils.setInt(2.345654, null)).to.be.eql(null);
-        expect(DataUtils.setInt({}, null)).to.be.eql(null);
-        expect(DataUtils.setInt([], false)).to.be.eql(false);
-        expect(DataUtils.setInt(undefined, null)).to.be.eql(null);
-
-        done();
-
-    });
-
-    it("should correctly handle the setString", function(done) {
-
-        expect(DataUtils.setString("", null)).to.be.eql("");
-        expect(DataUtils.setString("Here\"s some - lovely string", null)).to.be.eql("Here\"s some - lovely string");
-
-        expect(DataUtils.setString(2, null)).to.be.eql("2");
-        expect(DataUtils.setString(2.345654, null)).to.be.eql("2.345654");
-
-        expect(DataUtils.setString({}, null)).to.be.null;
-        expect(DataUtils.setString([], false)).to.be.false;
-        expect(DataUtils.setString(undefined, null)).to.be.null;
-        expect(DataUtils.setString(NaN, null)).to.be.null;
-
-        done();
-
-    });
-
-    it("should correctly handle the setString with three params", function(done) {
-
-        expect(DataUtils.setString("value1", null, ["value1", "value2"])).to.be.equal("value1");
-        expect(DataUtils.setString("value2", null, ["value1", "value2"])).to.be.equal("value2");
-        expect(DataUtils.setString("value3", null, ["value1", "value2"])).to.be.null;
-        expect(DataUtils.setString("value3", null, [])).to.be.null;
-
-        done();
-
-    });
-
-    it("should correctly handle the setInstanceOf", function(done) {
-
-        expect(DataUtils.setInstanceOf(new Date(), Date, null)).to.be.instanceof(Date);
-        expect(DataUtils.setInstanceOf(new String("String"), String, null)).to.be.instanceof(String);
-
-        expect(DataUtils.setInstanceOf({}, undefined, null)).to.be.equal(null);
-        expect(DataUtils.setInstanceOf("String", null, 2)).to.be.equal(2);
-
-        done();
-
-    });
-
-    it("should correctly handle the setObject", function(done) {
-
-        expect(DataUtils.setObject({}, null)).to.be.eql({});
-        expect(DataUtils.setObject({key: "value"}, null)).to.be.eql({key: "value"});
-        expect(DataUtils.setObject(Object.create({k: 2}), null)).to.be.eql({k: 2});
-        expect(DataUtils.setObject(new String("some string"), "empty")).to.be.eql(new String("some string"));
-
-        expect(DataUtils.setObject([], null)).to.be.null;
-        expect(DataUtils.setObject(null, "empty")).to.be.equal("empty");
-        expect(DataUtils.setObject(undefined, null)).to.be.equal(null);
-
-        done();
-
-    });
-
-    describe("#setRegex", function(done) {
-
-        it("should validate an implied RegExp object", function(done) {
-
-            expect(DataUtils.setRegex(/(TEST)\-(\w+)/i, "test-testington", null)).to.be.equal("test-testington");
-
-            done();
-
-        });
-
-        it("should validate a full RegExp object", function(done) {
-
-            var regex = new RegExp('(test)\\-(\\w+)');
-
-            expect(DataUtils.setRegex(regex, "test-testington", null)).to.be.equal("test-testington");
-
-            done();
-
-        });
-
-        it("should validate against a string", function(done) {
-
-            var regex = '(test)\\-(\\w+)';
-
-            expect(DataUtils.setRegex(regex, "test-testington", null)).to.be.equal("test-testington");
-
-            done();
-
-        });
-
-        it("should return default when it fails to match", function(done) {
-
-            expect(DataUtils.setRegex(/(test)\_(\w+)/, "test-testington", null)).to.be.null;
-
-            done();
-
-        });
-
-        it("should throw an error when neither a RegExp or string is passed", function(done) {
-
-            var fail = false;
-
-            try {
-                DataUtils.setRegex([/(test)\_(\w+)/], 'test-testington');
-            } catch(err) {
-
-                fail = true;
-
-                expect(err).to.be.instanceof(Error);
-                expect(err.message).to.be.equal('SETREGEX_NOT_REGEXP_OR_STRING');
-
-            }
-
-            expect(fail).to.be.true;
-
-            done();
-
-        });
+        expect($datatypes.setDate('Hecky thump', null)).to.be.eql(null);
+        expect($datatypes.setDate(false, null)).to.be.eql(null);
+        expect($datatypes.setDate(null, true)).to.be.eql(true);
+        expect($datatypes.setDate(undefined, null)).to.be.eql(null);
+        expect($datatypes.setDate([], null)).to.be.eql(null);
+        expect($datatypes.setDate({}, objNow)).to.be.instanceof(Date).to.be.eql(objNow);
 
     });
 
 });
+
+describe('#setEnum', function () {
+
+    it('should allow valid entries', function () {
+
+        expect($datatypes.setEnum('hello', ['hello', 'goodbye'], null)).to.be.equal('hello');
+        expect($datatypes.setEnum('goodbye', ['hello', 'goodbye'], null)).to.be.equal('goodbye');
+        expect($datatypes.setEnum(2, [2, 3], null)).to.be.equal(2);
+
+    });
+
+    it('should ignore invalid entries', function () {
+
+        expect($datatypes.setEnum(2, ['2', 3], null)).to.be.null;
+        expect($datatypes.setEnum('foo', ['2', 3], null)).to.be.null;
+        expect($datatypes.setEnum('foo', 'foo', null)).to.be.null;
+
+    });
+
+});
+
+describe('#setFloat', function () {
+
+    it('should correctly handle the setFloat', function () {
+
+        /* Int */
+        expect($datatypes.setFloat(0, null)).to.be.eql(0);
+        expect($datatypes.setFloat(2, null)).to.be.eql(2);
+        expect($datatypes.setFloat(12345678901234567890, null)).to.be.eql(12345678901234567890);
+        expect($datatypes.setFloat(-27, null)).to.be.eql(-27);
+        expect($datatypes.setFloat(+27, null)).to.be.eql(+27);
+        expect($datatypes.setFloat(-12345678901234567890, null)).to.be.eql(-12345678901234567890);
+        expect($datatypes.setFloat(0.25, null)).to.be.eql(0.25);
+        expect($datatypes.setFloat(2.5, null)).to.be.eql(2.5);
+        expect($datatypes.setFloat(12345678901234567890.56789, null)).to.be.eql(12345678901234567890.56789);
+        expect($datatypes.setFloat(-27.2, null)).to.be.eql(-27.2);
+        expect($datatypes.setFloat(+27.0, null)).to.be.eql(+27.0);
+        expect($datatypes.setFloat(-12345678901234567890.8045, null)).to.be.eql(-12345678901234567890.8045);
+
+        /* String */
+        expect($datatypes.setFloat('0', null)).to.be.eql(0);
+        expect($datatypes.setFloat('2', null)).to.be.eql(2);
+        expect($datatypes.setFloat('12345678901234567890', null)).to.be.eql(12345678901234567890);
+        expect($datatypes.setFloat('-27', null)).to.be.eql(-27);
+        expect($datatypes.setFloat('+27', null)).to.be.eql(+27);
+        expect($datatypes.setFloat('-12345678901234567890', null)).to.be.eql(-12345678901234567890);
+        expect($datatypes.setFloat('0.5', null)).to.be.eql(0.5);
+        expect($datatypes.setFloat('2.25', null)).to.be.eql(2.25);
+        expect($datatypes.setFloat('12345678901234567890.456789', null)).to.be.eql(12345678901234567890.456789);
+        expect($datatypes.setFloat('-27.4', null)).to.be.eql(-27.4);
+        expect($datatypes.setFloat('+27.888', null)).to.be.eql(+27.888);
+        expect($datatypes.setFloat('-12345678901234567890.456789', null)).to.be.eql(-12345678901234567890.456789);
+
+        /* Fail */
+        expect($datatypes.setFloat('Here\'s some - lovely string', null)).to.be.eql(null);
+        expect($datatypes.setFloat({}, null)).to.be.eql(null);
+        expect($datatypes.setFloat([], false)).to.be.eql(false);
+        expect($datatypes.setFloat(undefined, null)).to.be.eql(null);
+
+    });
+
+});
+
+describe('#setFunction', function () {
+
+    it('should correctly handle the setFunction', function () {
+
+        /* Pass a function over */
+        expect($datatypes.setFunction(function () { }, null)).to.be.a('function');
+        expect($datatypes.setFunction(new Function(), null)).to.be.a('function');
+
+        /* Pass a non-function over */
+        expect($datatypes.setFunction('Here\'s some - lovely string', null)).to.be.eql(null);
+        expect($datatypes.setFunction({}, null)).to.be.eql(null);
+        expect($datatypes.setFunction([], false)).to.be.eql(false);
+        expect($datatypes.setFunction(undefined, null)).to.be.eql(null);
+
+    });
+
+});
+
+describe('#setInt', function () {
+
+    it('should correctly handle the setInt', function () {
+
+        /* Int */
+        expect($datatypes.setInt(0, null)).to.be.eql(0);
+        expect($datatypes.setInt(2, null)).to.be.eql(2);
+        expect($datatypes.setInt(12345678901234567890, null)).to.be.eql(12345678901234567890);
+        expect($datatypes.setInt(-27, null)).to.be.eql(-27);
+        expect($datatypes.setInt(+27, null)).to.be.eql(+27);
+        expect($datatypes.setInt(-12345678901234567890, null)).to.be.eql(-12345678901234567890);
+
+        /* String */
+        expect($datatypes.setInt('0', null)).to.be.eql(0);
+        expect($datatypes.setInt('2', null)).to.be.eql(2);
+        expect($datatypes.setInt('12345678901234567890', null)).to.be.eql(12345678901234567890);
+        expect($datatypes.setInt('-27', null)).to.be.eql(-27);
+        expect($datatypes.setInt('+27', null)).to.be.eql(+27);
+        expect($datatypes.setInt('-12345678901234567890', null)).to.be.eql(-12345678901234567890);
+
+        /* Fail */
+        expect($datatypes.setInt('Here\'s some - lovely string', null)).to.be.eql(null);
+        expect($datatypes.setInt(2.345654, null)).to.be.eql(null);
+        expect($datatypes.setInt({}, null)).to.be.eql(null);
+        expect($datatypes.setInt([], false)).to.be.eql(false);
+        expect($datatypes.setInt(undefined, null)).to.be.eql(null);
+
+    });
+
+});
+
+describe('#setInstanceOf', function () {
+
+    it('should correctly handle the setInstanceOf', function () {
+
+        expect($datatypes.setInstanceOf(new Date(), Date, null)).to.be.instanceof(Date);
+        expect($datatypes.setInstanceOf(new String('String'), String, null)).to.be.instanceof(String);
+
+        expect($datatypes.setInstanceOf({}, undefined, null)).to.be.equal(null);
+        expect($datatypes.setInstanceOf('String', null, 2)).to.be.equal(2);
+
+    });
+
+});
+
+describe('#setObject', function () {
+
+    it('should correctly handle the setObject', function () {
+
+        expect($datatypes.setObject({}, null)).to.be.eql({});
+        expect($datatypes.setObject({key: 'value'}, null)).to.be.eql({key: 'value'});
+        expect($datatypes.setObject(Object.create({k: 2}), null)).to.be.eql({k: 2});
+        expect($datatypes.setObject(new String('some string'), 'empty')).to.be.eql(new String('some string'));
+
+        expect($datatypes.setObject([], null)).to.be.null;
+        expect($datatypes.setObject(null, 'empty')).to.be.equal('empty');
+        expect($datatypes.setObject(undefined, null)).to.be.equal(null);
+
+    });
+
+});
+
+describe('#setString', function () {
+
+    it('should correctly handle the setString', function () {
+
+        expect($datatypes.setString('', null)).to.be.eql('');
+        expect($datatypes.setString('Here\'s some - lovely string', null)).to.be.eql('Here\'s some - lovely string');
+
+        expect($datatypes.setString(2, null)).to.be.eql('2');
+        expect($datatypes.setString(2.345654, null)).to.be.eql('2.345654');
+
+        expect($datatypes.setString({}, null)).to.be.null;
+        expect($datatypes.setString([], false)).to.be.false;
+        expect($datatypes.setString(undefined, null)).to.be.null;
+        expect($datatypes.setString(NaN, null)).to.be.null;
+
+    });
+
+    it('should correctly handle the setString with three params', function () {
+
+        expect($datatypes.setString('value1', null, ['value1', 'value2'])).to.be.equal('value1');
+        expect($datatypes.setString('value2', null, ['value1', 'value2'])).to.be.equal('value2');
+        expect($datatypes.setString('value3', null, ['value1', 'value2'])).to.be.null;
+        expect($datatypes.setString('value3', null, [])).to.be.null;
+
+    });
+
+})
