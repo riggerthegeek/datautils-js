@@ -41,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/riggerthegeek/datautils-js/issues"
   },
-  "licence": "MIT",
+  "license": "MIT",
   "scripts": {
     "test": "grunt watchtest"
   }
