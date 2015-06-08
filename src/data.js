@@ -114,12 +114,12 @@ module.exports = {
 
         if (_.isString(input)) {
             /* Match ISO8601 date */
-
-            //console.log(moment.ISO_8601());
-            var tmp = moment(input, moment.ISO_8601);
+            var tmp = moment.utc(input, moment.ISO_8601);
 
             if (tmp.isValid()) {
-                return tmp.toDate();
+                var date = tmp.toDate();
+
+                return date;
             }
         }
 
@@ -264,7 +264,7 @@ module.exports = {
      */
     setObject: function setObject (input, def) {
 
-        if (_.isObject(input) && _.isArray(input) === false) {
+        if (_.isObject(input) && _.isArray(input) === false && _.isFunction(input) === false) {
             return input;
         }
 

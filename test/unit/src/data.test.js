@@ -102,6 +102,12 @@ describe("datatypes test", function () {
 
         });
 
+        it('should correctly handle a BST setDate', function () {
+
+            expect($datatypes.setDate('1987-07-03', null)).to.be.instanceof(Date).to.be.eql(new Date(1987, 6, 3, 1));
+
+        });
+
     });
 
     describe('#setEnum', function () {
@@ -250,6 +256,7 @@ describe("datatypes test", function () {
             expect($datatypes.setObject([], null)).to.be.null;
             expect($datatypes.setObject(null, 'empty')).to.be.equal('empty');
             expect($datatypes.setObject(undefined, null)).to.be.equal(null);
+            expect($datatypes.setObject(function () { }, null)).to.be.equal(null);
 
         });
 
