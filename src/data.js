@@ -11,8 +11,17 @@
 
 "use strict";
 
+
+/* Node modules */
+
+
+/* Third-party modules */
 var _ = require("lodash");
 var moment = require("moment");
+
+
+/* Files */
+
 
 module.exports = {
 

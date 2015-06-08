@@ -1,13 +1,5 @@
 /**
- * Data Utils Test
- *
- * Run these tests using Mocha framework. Eg..
- *  mocha datautilsTest.js
- *
- * Mocha runs best when install as a global dependency.
- *
- * @link http://visionmedia.github.io/mocha/
- * @author Simon Emms <simon@simonemms.com>
+ * Data
  */
 
 var $datatypes = rootRequire("").data;

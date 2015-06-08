@@ -18,6 +18,6 @@ module.exports = {
 
     data: require("./src/data"),
 
-    //validation: require("./src/validation")
+    validation: require("./src/validation")
 
 };
