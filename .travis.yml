@@ -3,14 +3,9 @@ node_js:
 - '0.12'
 - '0.11'
 - '0.10'
-- '0.8'
-- '0.6'
 - 'iojs'
 sudo: false
 matrix:
   fast_finish: true
-  allow_failures:
-  - node_js: '0.8'
-  - node_js: '0.6'
 script:
 - ant -f build.xml ci
