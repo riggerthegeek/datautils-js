@@ -3,9 +3,20 @@ node_js:
 - '0.12'
 - '0.11'
 - '0.10'
-- 'iojs'
-sudo: false
+- iojs
 matrix:
   fast_finish: true
+sudo: false
+before_install:
+- npm install -g grunt-cli
 script:
-- ant -f build.xml ci
+- grunt ci
+deploy:
+  provider: npm
+  email: simon@simonemms.com
+  on:
+    all_branches: true
+    tags: true
+    repo: riggerthegeek/datautils-js
+  api_key:
+    secure: fcJapEg8eOoDUF4JLyx0ScRKGwx8A2AXs/JfkNItA7qffBVk5vHpIc3D8BZfK3i/OyA1c2ECIJP2vJ5Ku7zwtBEd8bESKNn3KUADC7amuMn0/DT4XWZvt9aFjfhvktPGJQRKBUbAXV3jccaLiFPAE5RdYZDDjw2CDDXyKaCBWhw=

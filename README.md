@@ -12,23 +12,7 @@ Once you've done that, you can access this using the `require` statement.
 
     var datautils = require('datautils');
 
-# Accessing the Methods
-
-This module uses the [Revealing Module Pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#revealingmodulepatternjavascript), so you can easily access the bits you want.  Simply put, you can access the lower modules easily.
-
-    /* To get to the arrays */
-    var datautils = require('datautils');
-
-    var array = datautils.array;
-    var data = datautils.data;
-    var model = datautils.model;
-    var validation = datautils.validation;
-
 # Documentation
-
-## Array
- - [inArray](#inArray)
- - [objectValues](#objectValues)
 
 ## Data
  - [setArray](#setArray)
@@ -41,56 +25,6 @@ This module uses the [Revealing Module Pattern](http://addyosmani.com/resources/
  - [setObject](#setObject)
  - [setRegex](#setRegex)
  - [setString](#setString)
-
-## Model
-The model is much more complex than can be explained here.  Please see the [Model](MODEL.md)
-documentation for a detailed explaination of how it works.
-
-## Validation
- - [email](#email)
- - [equal](#equal)
- - [greaterThan](#greaterThan)
- - [greaterThanOrEqual](#greaterThanOrEqual)
- - [length](#length)
- - [lengthBetween](#lengthBetween)
- - [lessThan](#lessThan)
- - [lessThanOrEqual](#lessThanOrEqual)
- - [maxLength](#maxLength)
- - [minLength](#minLength)
- - [regex](#regex)
- - [required](#required)
-
-# Array
-
-<a name="inArray" />
-### _bool_ inArray(_mixed_ needle, _array_ haystack)
-
-Searches for the needle (usually a string, but could be a number or other data
-type) inside the haystack (an array).
-
-#### Example
-
-    var haystack = [
-       'val1', 'val2', 'val3'
-    ];
-
-    datautils.array.inArray('val2', haystack); // true
-    datautils.array.inArray('val4', haystack); // false
-
-<a name="objectValues" />
-### _array_ objectValues(_object_ obj)
-
-Pass out the values of an object as an array.  Similar to PHP's array_values()
-function
-
-#### Example
-
-    var obj = {
-        name: 'Name',
-        email: 'test@test.com'
-    };
-
-    datautils.array.objectValues(obj); // ['Name', test@test.com']
 
 # Data
 
