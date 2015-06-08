@@ -10,7 +10,7 @@
  * @author Simon Emms <simon@simonemms.com>
  */
 
-var $datatypes = rootRequire("main");
+var $datatypes = rootRequire("datautils");
 
 var _ = require("lodash");
 
