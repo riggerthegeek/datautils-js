@@ -9,6 +9,8 @@
  * @license MIT License
  */
 
+"use strict";
+
 var _ = require("lodash");
 var moment = require("moment");
 

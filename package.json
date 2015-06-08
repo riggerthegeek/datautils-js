@@ -2,7 +2,7 @@
   "name": "datautils",
   "description": "Some JavaScript data utilities",
   "version": "1.1.6",
-  "main": "./datautils",
+  "main": "./src/datautils",
   "dependencies": {
     "lodash": "~3.9.3",
     "moment": "~2.10.3"
