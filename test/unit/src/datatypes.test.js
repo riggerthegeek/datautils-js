@@ -77,6 +77,7 @@ describe("datatypes test", function () {
             expect($datatypes.setBool([], null)).to.be.eql(null);
             expect($datatypes.setBool(null, false)).to.be.eql(false);
             expect($datatypes.setBool(undefined, null)).to.be.eql(null);
+            expect($datatypes.setBool(2, null)).to.be.null;
 
         });
 
@@ -257,6 +258,63 @@ describe("datatypes test", function () {
             expect($datatypes.setObject([], null)).to.be.null;
             expect($datatypes.setObject(null, 'empty')).to.be.equal('empty');
             expect($datatypes.setObject(undefined, null)).to.be.equal(null);
+
+        });
+
+    });
+
+    describe("#setRegex", function () {
+
+        it("should validate an implied RegExp object", function () {
+
+            expect($datatypes.setRegex(/(TEST)\-(\w+)/i, "test-testington", null)).to.be.equal("test-testington");
+
+        });
+
+        it("should validate a full RegExp object", function () {
+
+            var regex = new RegExp('(test)\\-(\\w+)');
+
+            expect($datatypes.setRegex(regex, "test-testington", null)).to.be.equal("test-testington");
+
+        });
+
+        it("should validate against a string", function () {
+
+            var regex = '(test)\\-(\\w+)';
+
+            expect($datatypes.setRegex(regex, "test-testington", null)).to.be.equal("test-testington");
+
+        });
+
+        it("should return default when it fails to match", function () {
+
+            expect($datatypes.setRegex(/(test)\_(\w+)/, "test-testington", null)).to.be.null;
+
+        });
+
+        it("should throw an error when neither a RegExp or string is passed", function () {
+
+            var fail = false;
+
+            try {
+                $datatypes.setRegex([/(test)\_(\w+)/], "test-testington");
+            } catch (err) {
+
+                fail = true;
+
+                expect(err).to.be.instanceof(Error);
+                expect(err.message).to.be.equal("SETREGEX_NOT_REGEXP_OR_STRING");
+
+            }
+
+            expect(fail).to.be.true;
+
+        });
+
+        it("should do nothing when non-string passed in", function () {
+
+            expect($datatypes.setRegex(/hello/, false, null)).to.be.null;
 
         });
 
