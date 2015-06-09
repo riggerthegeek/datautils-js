@@ -108,7 +108,10 @@ describe("datatypes test", function () {
 
             expect(date).to.be.instanceof(Date);
 
-            expect(date).to.be.eql(new Date(1987, 6, 3));
+            //console.log(new Date(Date.UTC(1987, 6, 3)));
+            //process.exit();
+
+            expect(date).to.be.eql(new Date(Date.UTC(1987, 6, 3)));
 
         });
 
