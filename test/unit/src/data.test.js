@@ -108,7 +108,7 @@ describe("datatypes test", function () {
 
             expect(date).to.be.instanceof(Date);
 
-            expect(date.getTime()).to.be.equal(552268800000);
+            expect(date).to.be.eql(new Date(1987, 6, 3));
 
         });
 
