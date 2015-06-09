@@ -114,12 +114,12 @@ module.exports = {
 
         if (_.isString(input)) {
             /* Match ISO8601 date */
-            var tmp = moment.utc(input, moment.ISO_8601);
+            var tmp = moment(input, moment.ISO_8601);
 
             if (tmp.isValid()) {
-                var date = tmp.toDate();
 
-                return date;
+                return new Date(input);
+
             }
         }
 
