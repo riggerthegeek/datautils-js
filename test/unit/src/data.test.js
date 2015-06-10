@@ -86,8 +86,10 @@ describe("datatypes test", function () {
             expect($datatypes.setDate(objNow, null)).to.be.instanceof(Date).to.be.eql(objNow);
 
             /* YYYY-MM-DD */
-            expect($datatypes.setDate('2013-02-07', null)).to.be.instanceof(Date).to.be.eql(new Date(2013, 1, 7));
-            expect($datatypes.setDate('2013-02-07 14:15:16', null)).to.be.instanceof(Date).to.be.eql(new Date(2013, 1, 7, 14, 15, 16));
+            expect($datatypes.setDate('2013-02-07', null)).to.be.instanceof(Date);
+            expect($datatypes.setDate('2013-02-07', null).getTime()).to.be.eql(new Date(2013, 1, 7).getTime());
+            expect($datatypes.setDate('2013-02-07 14:15:16', null)).to.be.instanceof(Date);
+            expect($datatypes.setDate('2013-02-07 14:15:16', null).getTime()).to.be.eql(new Date(2013, 1, 7, 14, 15, 16).getTime());
 
             /* ISO8601 */
             expect($datatypes.setDate(objNow.toISOString(), null)).to.be.instanceof(Date).to.be.eql(objNow);
@@ -108,10 +110,15 @@ describe("datatypes test", function () {
 
             expect(date).to.be.instanceof(Date);
 
-            //console.log(new Date(Date.UTC(1987, 6, 3)));
-            //process.exit();
+            expect(date.getTime()).to.be.eql(new Date(1987, 6, 3).getTime());
 
-            expect(date).to.be.eql(new Date(Date.UTC(1987, 6, 3)));
+        });
+
+        it('should ignore milliseconds in the ', function () {
+
+            var date = $datatypes.setDate('2013-02-07T10:20:30.100Z', null);
+
+            console.log(date);
 
         });
 

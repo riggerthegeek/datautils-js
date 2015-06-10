@@ -118,7 +118,7 @@ module.exports = {
 
             if (tmp.isValid()) {
 
-                return new Date(input);
+                return new Date(tmp.format());
 
             }
         }
