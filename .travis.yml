@@ -7,6 +7,10 @@ node_js:
 matrix:
   fast_finish: true
 sudo: false
+env:
+- TZ=Etc/UTC
+- TZ=America/Los_Angeles
+- TZ=Asia/Tokyo
 before_install:
 - npm install -g grunt-cli
 script:
