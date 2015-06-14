@@ -212,13 +212,13 @@ MIT License
 [npm-image]: https://img.shields.io/npm/v/datautils.svg?style=flat
 [downloads-image]: https://img.shields.io/npm/dm/datautils.svg?style=flat
 [node-version-image]: https://img.shields.io/badge/node.js-%3E%3D_0.8-brightgreen.svg?style=flat
-[travis-image]: https://img.shields.io/travis/riggerthegeek/datautils.svg?style=flat
+[travis-image]: https://img.shields.io/travis/riggerthegeek/datautils-js.svg?style=flat
 [dependencies-image]: https://img.shields.io/david/riggerthegeek/datautils.svg?style=flat
 [dev-dependencies-image]: https://img.shields.io/david/dev/riggerthegeek/datautils.svg?style=flat
 
 [npm-url]: https://npmjs.org/package/datautils
 [node-version-url]: http://nodejs.org/download/
-[travis-url]: https://travis-ci.org/riggerthegeek/datautils 
+[travis-url]: https://travis-ci.org/riggerthegeek/datautils-js
 [downloads-url]: https://npmjs.org/package/datautils
 [dependencies-url]: https://david-dm.org/riggerthegeek/datautils
 [dev-dependencies-url]: https://david-dm.org/riggerthegeek/datautils#info=devDependencies&view=table
