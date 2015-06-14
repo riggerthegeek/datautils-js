@@ -1,4 +1,11 @@
-# DataUtils JS [![Build Status](https://travis-ci.org/riggerthegeek/datautils-js.png?branch=master)](https://travis-ci.org/riggerthegeek/datautils-js)
+# DataUtils JS
+
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Node.js Version][node-version-image]][node-version-url]
+[![Build Status][travis-image]][travis-url]
+[![Dependencies][dependencies-image]][dependencies-url]
+[![Dev Dependencies][dev-dependencies-image]][dev-dependencies-url]
 
 Some JavaScript data utilities
 
@@ -197,3 +204,21 @@ either a string or an instance of the RegExp object (by either `new RegExp()` or
 ### _boolean_ required(_string_ value)
 
 If it's a truthy value, 0 or false, it is ok. Otherwise, it fails the test
+
+# License
+
+MIT License
+
+[npm-image]: https://img.shields.io/npm/v/datautils.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/datautils.svg?style=flat
+[node-version-image]: https://img.shields.io/badge/node.js-%3E%3D_0.8-brightgreen.svg?style=flat
+[travis-image]: https://img.shields.io/travis/riggerthegeek/datautils.svg?style=flat
+[dependencies-image]: https://img.shields.io/david/riggerthegeek/datautils.svg?style=flat
+[dev-dependencies-image]: https://img.shields.io/david/dev/riggerthegeek/datautils.svg?style=flat
+
+[npm-url]: https://npmjs.org/package/datautils
+[node-version-url]: http://nodejs.org/download/
+[travis-url]: https://travis-ci.org/riggerthegeek/datautils 
+[downloads-url]: https://npmjs.org/package/datautils
+[dependencies-url]: https://david-dm.org/riggerthegeek/datautils
+[dev-dependencies-url]: https://david-dm.org/riggerthegeek/datautils#info=devDependencies&view=table
