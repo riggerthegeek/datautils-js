@@ -4,7 +4,7 @@
   "version": "3.0.5",
   "main": "./Main",
   "dependencies": {
-    "lodash": "~3.9.3",
+    "lodash": "~3.10.0",
     "moment": "~2.10.3"
   },
   "devDependencies": {
@@ -22,10 +22,10 @@
     "grunt-shell": "^1.1.2",
     "grunt-timer": "^0.6.0",
     "load-grunt-tasks": "^3.2.0",
-    "proxyquire": "^1.5.0",
-    "semver": "^4.3.4",
-    "sinon": "^1.14.1",
-    "sinon-chai": "^2.7.0"
+    "proxyquire": "^1.6.0",
+    "semver": "^5.0.0",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0"
   },
   "author": "Simon Emms <simon@simonemms.com>",
   "contributors": [
