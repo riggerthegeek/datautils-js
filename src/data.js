@@ -39,18 +39,14 @@ module.exports = {
      */
     approxDate: function approxDate (expected, actual, leeway) {
 
+        /* Check it's a Date-like input */
+        actual = this.setDate(actual, null);
+
         if (_.isNumber(leeway) === false) {
             leeway = 100;
         }
 
-        var tmp = moment(actual, moment.ISO_8601);
-
-        if (tmp.isValid()) {
-            /* Actual is a date */
-            actual = tmp.toDate();
-        }
-
-        if (actual instanceof Date) {
+        if (actual !== null) {
 
             /* Allow moment instances in */
             if (_.isFunction(expected.toDate)) {
