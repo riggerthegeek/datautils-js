@@ -27,6 +27,56 @@ module.exports = {
 
 
     /**
+     * Approx Date
+     *
+     * Is the actual date close enough to the
+     * expected date?
+     *
+     * @param {object} expected
+     * @param {object} actual
+     * @param {number} leeway
+     * @returns {boolean}
+     */
+    approxDate: function approxDate (expected, actual, leeway) {
+
+        if (_.isNumber(leeway) === false) {
+            leeway = 100;
+        }
+
+        var tmp = moment(actual, moment.ISO_8601);
+
+        if (tmp.isValid()) {
+            /* Actual is a date */
+            actual = tmp.toDate();
+        }
+
+        if (actual instanceof Date) {
+
+            /* Allow moment instances in */
+            if (_.isFunction(expected.toDate)) {
+                expected = expected.toDate();
+            }
+
+            var expectedTime = expected.getTime();
+            var actualTime = actual.getTime();
+
+            var diff = expectedTime - actualTime;
+
+            if (Math.abs(diff) <= leeway) {
+                /* Winner */
+                return true;
+            }
+
+            throw new Error("actual time exceeds " + leeway + "ms (" + Math.abs(diff) + ") - expected: " + expected + ", actual: " + actual);
+
+        }
+
+        throw new Error("actual is not an acceptable Date");
+
+    },
+
+
+    /**
      * Set Array
      *
      * Ensures the input is an array, or returns the

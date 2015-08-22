@@ -5,9 +5,82 @@
 var $datatypes = rootRequire("").data;
 
 var _ = require("lodash");
+var moment = require("moment");
 
 
 describe("datatypes test", function () {
+
+    describe.only("#approxDate", function () {
+
+        describe("valid", function () {
+
+            it("should validate when all date objects and below the default leeway", function () {
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() - 100);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+                expect($datatypes.approxDate(expected, actual)).to.be.true;
+
+            });
+
+            it("should validate when all date objects and above the default leeway", function () {
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() + 100);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+                expect($datatypes.approxDate(expected, actual)).to.be.true;
+
+            });
+
+            it("should validate when all date objects and below the specifed leeway", function () {
+
+                var leeway = 101;
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() - leeway);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+                expect($datatypes.approxDate(expected, actual, leeway)).to.be.true;
+
+            });
+
+            it("should validate when all date objects and above the specifed leeway", function () {
+
+                var leeway = 101;
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() + leeway);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+                expect($datatypes.approxDate(expected, actual, leeway)).to.be.true;
+
+            });
+
+            it("should validate when expected is a moment and below leeway", function () {
+
+                var expected = moment(new Date(1440265931588));
+                var actual = new Date(expected.toDate().getTime() - 100);
+
+                expect(expected.toDate().getTime()).to.not.be.equal(actual.getTime());
+                expect($datatypes.approxDate(expected, actual)).to.be.true;
+
+            });
+
+            it("should validate when expected is a moment and above leeway", function () {
+
+                var expected = moment(new Date(1440265931588));
+                var actual = new Date(expected.toDate().getTime() + 100);
+
+                expect(expected.toDate().getTime()).to.not.be.equal(actual.getTime());
+                expect($datatypes.approxDate(expected, actual)).to.be.true;
+
+            });
+
+        });
+
+    });
 
     describe('#setArray', function () {
 
