@@ -19,6 +19,8 @@ script:
 deploy:
   provider: npm
   email: simon@simonemms.com
+  api_key:
+    secure: CpWDYsiWYweRMdlyjU3D90MeHJEZByYPviEedpS62iGMw0MbtpMtpOaN8LDb2Fkd1aQp8hrDY3iIGMvFC/Tlz5nH+tt04e3JRokrvtRS1M9XsGjudHydArHxGWAV1JQkFv7x6tYkh31QwWikHL0kGgC3ZwZCreANoCyt/D5nEbQ=
   on:
     all_branches: true
     tags: true
