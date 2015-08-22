@@ -23,7 +23,7 @@ var moment = require("moment");
 /* Files */
 
 
-module.exports = {
+var datatypes = {
 
 
     /**
@@ -40,7 +40,7 @@ module.exports = {
     approxDate: function approxDate (expected, actual, leeway) {
 
         /* Check it's a Date-like input */
-        actual = this.setDate(actual, null);
+        actual = datatypes.setDate(actual, null);
 
         if (_.isNumber(leeway) === false) {
             leeway = 100;
@@ -395,3 +395,6 @@ module.exports = {
 
 
 };
+
+
+module.exports = datatypes;
