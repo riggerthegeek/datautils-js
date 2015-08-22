@@ -71,7 +71,7 @@ module.exports = {
 
         }
 
-        throw new Error("actual is not an acceptable Date");
+        throw new TypeError("actual is not an acceptable Date");
 
     },
 

@@ -10,7 +10,188 @@ var moment = require("moment");
 
 describe("datatypes test", function () {
 
-    describe.only("#approxDate", function () {
+    describe("#approxDate", function () {
+
+        describe("invalid", function () {
+
+            it("should throw an error if actual can't be cast to a Date", function () {
+
+                var fail = false;
+
+                try {
+                    $datatypes.approxDate(new Date(), "bum");
+                } catch (err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(TypeError);
+                    expect(err.message).to.be.equal("actual is not an acceptable Date");
+
+                } finally {
+
+                    expect(fail).to.be.true;
+
+                }
+
+            });
+
+            it("should throw an error when the different is below the default leeway", function () {
+
+                var fail = false;
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() - 101);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+
+                try {
+                    $datatypes.approxDate(expected, actual);
+                } catch (err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal("actual time exceeds 100ms (101) - expected: " + expected + ", actual: " + actual);
+
+                } finally {
+
+                    expect(fail).to.be.true;
+
+                }
+
+            });
+
+            it("should throw an error when the different is above the default leeway", function () {
+
+                var fail = false;
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() + 101);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+
+                try {
+                    $datatypes.approxDate(expected, actual);
+                } catch (err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal("actual time exceeds 100ms (101) - expected: " + expected + ", actual: " + actual);
+
+                } finally {
+
+                    expect(fail).to.be.true;
+
+                }
+
+            });
+
+            it("should throw an error when the different is below the set leeway", function () {
+
+                var fail = false;
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() - 102);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+
+                try {
+                    $datatypes.approxDate(expected, actual, 101);
+                } catch (err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal("actual time exceeds 101ms (102) - expected: " + expected + ", actual: " + actual);
+
+                } finally {
+
+                    expect(fail).to.be.true;
+
+                }
+
+            });
+
+            it("should throw an error when the different is above the set leeway", function () {
+
+                var fail = false;
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() + 102);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+
+                try {
+                    $datatypes.approxDate(expected, actual, 101);
+                } catch (err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal("actual time exceeds 101ms (102) - expected: " + expected + ", actual: " + actual);
+
+                } finally {
+
+                    expect(fail).to.be.true;
+
+                }
+
+            });
+
+            it("should throw an error when the different is below the set leeway and convert actual from a string", function () {
+
+                var fail = false;
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() - 102);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+
+                try {
+                    $datatypes.approxDate(expected, actual.toISOString(), 101);
+                } catch (err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal("actual time exceeds 101ms (102) - expected: " + expected + ", actual: " + actual);
+
+                } finally {
+
+                    expect(fail).to.be.true;
+
+                }
+
+            });
+
+            it("should throw an error when the different is above the set leeway and convert from a string", function () {
+
+                var fail = false;
+
+                var expected = new Date(1440265931588);
+                var actual = new Date(expected.getTime() + 102);
+
+                expect(expected.getTime()).to.not.be.equal(actual.getTime());
+
+                try {
+                    $datatypes.approxDate(expected, actual.toISOString(), 101);
+                } catch (err) {
+
+                    fail = true;
+
+                    expect(err).to.be.instanceof(Error);
+                    expect(err.message).to.be.equal("actual time exceeds 101ms (102) - expected: " + expected + ", actual: " + actual);
+
+                } finally {
+
+                    expect(fail).to.be.true;
+
+                }
+
+            });
+
+        });
 
         describe("valid", function () {
 
@@ -75,6 +256,26 @@ describe("datatypes test", function () {
 
                 expect(expected.toDate().getTime()).to.not.be.equal(actual.getTime());
                 expect($datatypes.approxDate(expected, actual)).to.be.true;
+
+            });
+
+            it("should validate when actual is a string and below leeway", function () {
+
+                var expected = moment(new Date(1440265931588));
+                var actual = new Date(expected.toDate().getTime() - 100);
+
+                expect(expected.toDate().getTime()).to.not.be.equal(actual.getTime());
+                expect($datatypes.approxDate(expected, actual.toISOString())).to.be.true;
+
+            });
+
+            it("should validate when expected is a string and above leeway", function () {
+
+                var expected = moment(new Date(1440265931588));
+                var actual = new Date(expected.toDate().getTime() + 100);
+
+                expect(expected.toDate().getTime()).to.not.be.equal(actual.getTime());
+                expect($datatypes.approxDate(expected, actual.toISOString())).to.be.true;
 
             });
 
