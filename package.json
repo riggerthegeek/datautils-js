@@ -3,6 +3,9 @@
   "description": "Some JavaScript data utilities",
   "version": "3.1.2",
   "main": "./Main",
+  "typescript": {
+    "definition": "datautils.d.ts"
+  },
   "dependencies": {
     "lodash": "~4.0.0",
     "moment": "~2.11.1"
