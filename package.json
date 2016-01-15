@@ -4,19 +4,19 @@
   "version": "3.1.1",
   "main": "./Main",
   "dependencies": {
-    "lodash": "~3.10.0",
-    "moment": "~2.10.3"
+    "lodash": "~4.0.0",
+    "moment": "~2.11.1"
   },
   "devDependencies": {
     "chai": "^3.0.0",
     "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-clean": "^0.7.0",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-coveralls": "^1.0.0",
-    "grunt-jscs": "^1.8.0",
+    "grunt-jscs": "^2.6.0",
     "grunt-jsonlint": "^1.0.4",
-    "grunt-mocha-istanbul": "^2.4.0",
+    "grunt-mocha-istanbul": "^3.0.1",
     "grunt-mocha-test": "^0.12.7",
     "grunt-prompt": "^1.3.0",
     "grunt-shell": "^1.1.2",
