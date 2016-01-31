@@ -1,7 +1,7 @@
 {
   "name": "datautils",
   "description": "Some JavaScript data utilities",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "main": "./Main",
   "typescript": {
     "definition": "datautils.d.ts"
