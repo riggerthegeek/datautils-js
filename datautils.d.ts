@@ -1,4 +1,4 @@
-declare module "datautils" {
+declare module datautils {
     export class data {
         static approxDate(expected: any, actual?: any, leeway?: any) : boolean;
         static setArray(input: any, def?: any) : any;
@@ -28,3 +28,6 @@ declare module "datautils" {
         static required(value: any) : boolean;
     }
 }
+
+
+export = datautils
