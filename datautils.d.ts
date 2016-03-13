@@ -24,7 +24,7 @@ declare module datautils {
         static lessThanOrEqual(value: any, target: any) : boolean;
         static maxLength(value: any, length: number) : boolean;
         static minLength(value: any, length: number) : boolean;
-        static regex(value: string, length: number) : boolean;
+        static regex(value: string, regex: RegExp | string) : boolean;
         static required(value: any) : boolean;
     }
 }
