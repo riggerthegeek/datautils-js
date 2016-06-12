@@ -11,7 +11,7 @@ declare module datautils {
         static setInt(input: any, def?: any) : any;
         static setObject(input: any, def?: any) : any;
         static setRegex(regex: any, input: any, def?: any) : any;
-        static setString(input:any, def?:any, values?:any):number;
+        static setString(input:any, def?:any, values?:any) : any;
     }
     export class validation {
         static email(value: string) : boolean;
