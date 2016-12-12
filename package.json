@@ -1,7 +1,7 @@
 {
   "name": "datautils",
   "description": "Some JavaScript data utilities",
-  "version": "3.1.7",
+  "version": "3.1.8",
   "main": "./Main",
   "typings": "datautils.d.ts",
   "dependencies": {
